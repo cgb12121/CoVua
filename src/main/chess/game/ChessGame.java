@@ -11,7 +11,6 @@ public class ChessGame {
     private Team currentTurn; // Lượt hiện tại
     private GameStatus status; // Trạng thái của trò chơi
 
-
     public ChessGame() {
         this.board = new Board(); // Khởi tạo bàn cờ mới
         this.currentTurn = Team.WHITE; // Đặt lượt hiện tại là lượt của người chơi màu trắng
@@ -92,5 +91,9 @@ public class ChessGame {
     // Trả về bàn cờ
     public Board getBoard() {
         return board;
+    }
+
+    public boolean isActive() {
+        return status == GameStatus.ACTIVE;
     }
 }
