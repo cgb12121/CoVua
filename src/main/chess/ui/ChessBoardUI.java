@@ -1,8 +1,9 @@
 package main.chess.ui;
 
-import main.chess.board.Board;
-import main.chess.board.Square;
-import main.chess.pieces.Piece;
+import main.chess.game.ChessGame;
+import main.chess.game.board.Board;
+import main.chess.game.board.Square;
+import main.chess.game.pieces.Piece;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ChessBoardUI extends JPanel {
+    private ChessGame chessGame;
     private Board board;
     private JPanel[][] squarePanels;
     private Square selectedSquare;
@@ -61,10 +63,10 @@ public class ChessBoardUI extends JPanel {
     private void displayPiece(Square square) {
         if (square.isOccupied()) {
             Piece piece = square.getPiece();
-            PieceUI pieceUI = new PieceUI(piece);
+            PieceIcon pieceIcon = new PieceIcon(piece);
             JPanel squarePanel = squarePanels[square.getRow()][square.getCol()];
             squarePanel.removeAll();
-            squarePanel.add(pieceUI);
+            squarePanel.add(pieceIcon);
             squarePanel.revalidate();
             squarePanel.repaint();
         }

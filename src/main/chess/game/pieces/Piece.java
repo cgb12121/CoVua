@@ -1,0 +1,33 @@
+package main.chess.game.pieces;
+
+import main.chess.game.board.Board;
+import main.chess.game.board.Square;
+import main.chess.game.Team;
+
+public abstract class Piece {
+    private  PieceType pieceType;
+    private Team team;
+    public Piece(PieceType pieceType,Team team) {
+        this.pieceType = pieceType;
+        this.team = team;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    public PieceType getType() {
+        return pieceType;
+    }
+    public void setType(PieceType pieceType) {
+        this.pieceType = pieceType;
+    }
+
+    public abstract String getIconFileName();
+
+    public abstract boolean canMove(Board board, Square start, Square end);
+
+}

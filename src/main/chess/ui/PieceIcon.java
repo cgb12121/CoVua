@@ -1,15 +1,14 @@
 package main.chess.ui;
 
-import main.chess.pieces.Piece;
+import main.chess.game.pieces.Piece;
 
 import javax.swing.*;
 import java.awt.*;
 
-
-public class PieceUI extends JLabel {
+public class PieceIcon extends JLabel {
     private static final int SQUARE_SIZE = 100;
 
-    public PieceUI(Piece piece) {
+    public PieceIcon(Piece piece) {
         if (piece != null) {
             String iconFileName = piece.getIconFileName();
             ImageIcon originalIcon = new ImageIcon(iconFileName);

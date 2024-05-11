@@ -1,45 +1,121 @@
 package main.chess.game;
 
-import main.chess.board.Board;
-import main.chess.board.Square;
-import main.chess.pieces.King;
-import main.chess.pieces.Piece;
+import main.chess.game.board.Board;
+import main.chess.game.board.Square;
+import main.chess.game.pieces.PieceType;
 
 public class Checkmate {
 
-    // Kiểm tra xem có phải là checkmate không
-    public static boolean isCheckmate(Board board, Team team) {
-        KingPosition kingPosition = findKing(board, team);
-        if (kingPosition != null) {
-            int kingRow = kingPosition.getRow();
-            int kingCol = kingPosition.getCol();
-            return isKingInCheck(board, kingRow, kingCol);
+    public static boolean kingInCheck(Board board, Square start, Square end) {
+        int startX = start.getRow();
+        int startY = start.getCol();
+        int endX = end.getRow();
+        int endY = end.getCol();
+
+        if (startX == endX && startY == endY) {
+
+            if (checkByPawn(board, start, end)) {
+                return true;
+            }
+
+            if (checkByKnight(board, start, end)) {
+                return true;
+            }
+
+            if (checkByRook(board, start, end)) {
+                return true;
+            }
+
+            if (checkByBishop(board, start, end)) {
+                return true;
+            }
+
+            if (checkByQueen(board, start, end)) {
+                return true;
+            }
+
+            if (checkByKing(board, start, end)) {
+                return true;
+            }
         }
         return false;
     }
 
-    // Tìm vị trí của Vua trong bàn cờ
-    private static KingPosition findKing(Board board, Team team) {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Square square = board.getSquare(row, col);
-                Piece piece = square.getPiece();
-                if (piece instanceof King && piece.getTeam() == team) {
-                    return new KingPosition(row, col);
+    public static boolean checkByPawn(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
+        int numRows = 8;
+        int numCols = 8;
+
+        if (start.getPiece().getTeam() == Team.WHITE){
+            int[][] possibleMoves = {{-1,1}, {-1,-1}};
+            for (int[] move : possibleMoves){
+                int newX = endX + move[0];
+                int newY = endY + move[1];
+
+                if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+                    Square targetSquare = board.getSquare(newX, newY);
+                    if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.PAWN &&
+                            targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
+                        return true;
+                    }
                 }
             }
         }
-        return null;
+
+        if (start.getPiece().getTeam() == Team.BLACK){
+            int[][] possibleMoves = {{1,1}, {1,-1}};
+            for (int[] move : possibleMoves){
+                int newX = endX + move[0];
+                int newY = endY + move[1];
+
+                if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+                    Square targetSquare = board.getSquare(newX, newY);
+                    if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.PAWN &&
+                            targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
-    // Kiểm tra xem Vua có đang bị chiếu không
-    private static boolean isKingInCheck(Board board, int kingRow, int kingCol) {
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Square square = board.getSquare(row, col);
-                Piece piece = square.getPiece();
-                if (piece != null && piece.getTeam() != board.getSquare(kingRow, kingCol).getPiece().getTeam()) {
-                    if (piece.canMove(board, square, board.getSquare(kingRow, kingCol))) {
+    public static boolean checkByKnight(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
+        int numRows = 8;
+        int numCols = 8;
+
+        int[][] possibleMoves = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}};
+
+        for (int[] move : possibleMoves) {
+            int newX = endX + move[0];
+            int newY = endY + move[1];
+
+            if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+                Square targetSquare = board.getSquare(newX, newY);
+                if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.KNIGHT &&
+                        targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public static boolean checkByRook(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board.getSquare(i, j) != null && board.getSquare(i, j).getPiece() != null &&
+                        board.getSquare(i, j).getPiece().getType() == PieceType.ROOK &&
+                        board.getSquare(i, j).getPiece().getTeam() != start.getPiece().getTeam()) {
+                    if (i == endX || j == endY) {
                         return true;
                     }
                 }
@@ -48,14 +124,16 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra xem có nước đi nào khả dụng cho Vua không
-    public static boolean availableMove(Board board, int kingRow, int kingCol) {
-        for (int i = kingRow - 1; i <= kingRow + 1; i++) {
-            for (int j = kingCol - 1; j <= kingCol + 1; j++) {
-                if (i >= 0 && i < 8 && j >= 0 && j < 8) {
-                    Square square = board.getSquare(i, j);
-                    Piece piece = square.getPiece();
-                    if (piece == null || piece.getTeam() != board.getSquare(kingRow, kingCol).getPiece().getTeam()) {
+    public static boolean checkByBishop(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board.getSquare(i, j) != null && board.getSquare(i, j).getPiece() != null &&
+                        board.getSquare(i, j).getPiece().getType() == PieceType.BISHOP &&
+                        board.getSquare(i, j).getPiece().getTeam() != start.getPiece().getTeam()) {
+                    if (Math.abs(i - endX) == Math.abs(j - endY)) {
                         return true;
                     }
                 }
@@ -64,22 +142,60 @@ public class Checkmate {
         return false;
     }
 
-    // Lớp vị trí của Vua
-    public static class KingPosition {
-        private int row; // Hàng
-        private int col; // Cột
+    public static boolean checkByQueen(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
 
-        public KingPosition(int row, int col) {
-            this.row = row;
-            this.col = col;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board.getSquare(i, j) != null && board.getSquare(i, j).getPiece() != null &&
+                        board.getSquare(i, j).getPiece().getType() == PieceType.QUEEN &&
+                        board.getSquare(i, j).getPiece().getTeam() != start.getPiece().getTeam()) {
+                    if (i == endX || j == endY) {
+                        return true;
+                    }
+                }
+            }
         }
 
-        public int getRow() {
-            return row;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board.getSquare(i, j) != null && board.getSquare(i, j).getPiece() != null &&
+                        board.getSquare(i, j).getPiece().getType() == PieceType.QUEEN &&
+                        board.getSquare(i, j).getPiece().getTeam() != start.getPiece().getTeam()) {
+                    if (Math.abs(i - endX) == Math.abs(j - endY)) {
+                        return true;
+                    }
+                }
+            }
         }
+        return false;
+    }
 
-        public int getCol() {
-            return col;
+    public static boolean checkByKing(Board board, Square start, Square end) {
+        int endX = end.getRow();
+        int endY = end.getCol();
+        int numRows = 8;
+        int numCols = 8;
+
+        int[][] possibleMoves = {
+                {-1, -1}, {-1, 0}, {-1, 1},
+                {0, -1},           {0, 1},
+                {1, -1}, {1, 0},  {1, 1}
+        };
+
+        for (int[] move : possibleMoves) {
+            int newX = endX + move[0];
+            int newY = endY + move[1];
+
+            if (newX >= 0 && newX < numRows && newY >= 0 && newY < numCols) {
+                Square targetSquare = board.getSquare(newX, newY);
+                if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.KING &&
+                        targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
+                    return true;
+                }
+            }
         }
+        return false;
     }
 }
