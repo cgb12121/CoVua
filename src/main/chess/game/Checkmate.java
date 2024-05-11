@@ -7,6 +7,7 @@ import main.chess.pieces.Piece;
 
 public class Checkmate {
 
+    // Kiểm tra xem có phải là checkmate không
     public static boolean isCheckmate(Board board, Team team) {
         KingPosition kingPosition = findKing(board, team);
         if (kingPosition != null) {
@@ -17,6 +18,7 @@ public class Checkmate {
         return false;
     }
 
+    // Tìm vị trí của Vua trong bàn cờ
     private static KingPosition findKing(Board board, Team team) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -30,6 +32,7 @@ public class Checkmate {
         return null;
     }
 
+    // Kiểm tra xem Vua có đang bị chiếu không
     private static boolean isKingInCheck(Board board, int kingRow, int kingCol) {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -45,6 +48,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra xem có nước đi nào khả dụng cho Vua không
     public static boolean availableMove(Board board, int kingRow, int kingCol) {
         for (int i = kingRow - 1; i <= kingRow + 1; i++) {
             for (int j = kingCol - 1; j <= kingCol + 1; j++) {
@@ -60,9 +64,10 @@ public class Checkmate {
         return false;
     }
 
+    // Lớp vị trí của Vua
     public static class KingPosition {
-        private int row;
-        private int col;
+        private int row; // Hàng
+        private int col; // Cột
 
         public KingPosition(int row, int col) {
             this.row = row;
