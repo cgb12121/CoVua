@@ -32,8 +32,6 @@ public class King extends Piece {
         return false;
     }
 
-
-
     @Override
     public String getIconFileName() {
         if (this.getTeam() == Team.WHITE){

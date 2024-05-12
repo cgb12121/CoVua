@@ -19,7 +19,7 @@ public class ChessGame {
     }
 
     private void checkGameStatus(Board board, Square start) {
-        if (Checkmate.kingInCheck(board, start, start)) {
+        if (Checkmate.kingInCheck(board, start)) {
             status = (currentTurn == Team.WHITE) ? GameStatus.BLACK_WIN : GameStatus.WHITE_WIN;
         } else {
             status = GameStatus.ACTIVE;

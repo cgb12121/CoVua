@@ -5,8 +5,8 @@ import main.chess.game.board.Square;
 import main.chess.game.Team;
 
 public class Queen extends Piece {
-    private final Rook rook;
-    private final Bishop bishop;
+    private Rook rook;
+    private Bishop bishop;
 
     public Queen(Team team) {
         super(PieceType.QUEEN,team);
