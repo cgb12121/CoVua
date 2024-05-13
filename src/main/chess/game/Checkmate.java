@@ -7,8 +7,33 @@ import main.chess.game.pieces.PieceType;
 public class Checkmate {
 
     public static boolean kingInCheck(Board board, Square start) {
-        return checkByKing(board, start, start) || checkByBishop(board, start, start) || checkByQueen(board, start, start) ||
-                (checkByRook(board, start, start)) || (checkByKnight(board, start, start)) || (checkByPawn(board, start, start));
+        int startX = start.getRow();
+        int startY = start.getCol();
+
+        if (checkByPawn(board, start, start)) {
+            return true;
+        }
+
+        if (checkByKnight(board, start, start)) {
+            return true;
+        }
+
+        if (checkByRook(board, start, start)) {
+            return true;
+        }
+
+        if (checkByBishop(board, start, start)) {
+            return true;
+        }
+
+        if (checkByQueen(board, start, start)) {
+            return true;
+        }
+
+        if (checkByKing(board, start, start)) {
+            return true;
+        }
+        return false;
     }
 
     public static boolean checkByRook(Board board, Square start, Square end) {
@@ -183,14 +208,12 @@ public class Checkmate {
         int numRows = 8;
         int numCols = 8;
 
-        // Các hướng mà vua địch có thể di chuyển đến ô end
         int[][] possibleMoves = {
                 {-1, -1}, {-1, 0}, {-1, 1},
                 {0, -1},           {0, 1},
                 {1, -1}, {1, 0},  {1, 1}
         };
 
-        // Kiểm tra các ô xung quanh ô end có vua địch không
         for (int[] move : possibleMoves) {
             int newX = endX + move[0];
             int newY = endY + move[1];
@@ -199,11 +222,11 @@ public class Checkmate {
                 Square targetSquare = board.getSquare(newX, newY);
                 if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.KING &&
                         targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
-                    return true;    // Ô end trong tầm vua địch
+                    return true;
                 }
             }
         }
-        return false;      // Ô end không trong tầm vua địch
+        return false;
     }
 
     public static boolean checkByPawn(Board board, Square start, Square end) {
@@ -212,12 +235,9 @@ public class Checkmate {
         int numRows = 8;
         int numCols = 8;
 
-        // Tốt trắng
         if (start.getPiece().getTeam() == Team.WHITE){
-            // Các hướng ô end có thể bị tốt tấn công từ đó
             int[][] possibleMoves = {{-1,1}, {-1,-1}};
             for (int[] move : possibleMoves){
-                // Xác định 2 ô chéo trước mặt ô end có tốt trắng không
                 int newX = endX + move[0];
                 int newY = endY + move[1];
 
@@ -225,19 +245,15 @@ public class Checkmate {
                     Square targetSquare = board.getSquare(newX, newY);
                     if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.PAWN &&
                             targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
-                        return true;    // Ô end trong tầm tấn công của tốt trắng
+                        return true;
                     }
                 }
             }
         }
 
-
-        // Tốt đen
         if (start.getPiece().getTeam() == Team.BLACK){
-            // Các hướng ô end có thể bị tốt tấn công từ đó
             int[][] possibleMoves = {{1,1}, {1,-1}};
             for (int[] move : possibleMoves){
-                // Xác định 2 ô chéo trước mặt ô end có tốt đen không
                 int newX = endX + move[0];
                 int newY = endY + move[1];
 
@@ -245,13 +261,13 @@ public class Checkmate {
                     Square targetSquare = board.getSquare(newX, newY);
                     if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.PAWN &&
                             targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
-                        return true; // Ô end trong tầm tấn công của tốt đen
+                        return true;
                     }
                 }
             }
         }
 
-        return false;   // Không có tốt của đối thủ có thế tấn công ô end
+        return false;
     }
 
     public static boolean checkByKnight(Board board, Square start, Square end) {
@@ -260,11 +276,9 @@ public class Checkmate {
         int numRows = 8;
         int numCols = 8;
 
-        // Các hướng mà mã có thế từ đó tới ô end
         int[][] possibleMoves = {{-2, -1}, {-2, 1}, {-1, -2}, {-1, 2}, {1, -2}, {1, 2}, {2, -1}, {2, 1}};
 
         for (int[] move : possibleMoves) {
-            // Xác định các ô đó có mã địch hay không
             int newX = endX + move[0];
             int newY = endY + move[1];
 
@@ -272,12 +286,12 @@ public class Checkmate {
                 Square targetSquare = board.getSquare(newX, newY);
                 if (targetSquare.isOccupied() && targetSquare.getPiece().getType() == PieceType.KNIGHT &&
                         targetSquare.getPiece().getTeam() != start.getPiece().getTeam()) {
-                    return true;    // Mã địch nằm trong ô có thể di chuyển đến ô end
+                    return true;
                 }
             }
         }
 
-        return false; // Không có mã địch có thể tới ô end
+        return false;
     }
 
     private static boolean isSquareBetweenUnblocked(Board board, Square start, Square end) {
