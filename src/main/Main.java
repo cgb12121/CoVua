@@ -4,7 +4,6 @@ import main.chess.game.ChessGame;
 import main.chess.ui.ChessBoardUI;
 
 import javax.swing.*;
-
 public class Main {
     public static void main(String[] args) {
         ChessGame game = new ChessGame();

@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="fix logic check for rook, bishop, queen and add comment">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Team.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +27,20 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;cgb12121&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="dd1ab6e7-66ea-429f-aa2b-82a5c2ec453c" />
+        <option name="url" value="https://github.com/cgb12121/CoVua.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 5
@@ -39,22 +50,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -80,12 +91,29 @@
       <option name="project" value="LOCAL" />
       <updated>1715536077916</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu">
+      <option name="closed" value="true" />
+      <created>1715601395235</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1715601395235</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu">
+      <option name="closed" value="true" />
+      <created>1715603140462</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1715603140462</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix logic check for rook, bishop, queen" />
     <MESSAGE value="fix logic check for rook, bishop, queen and add comment" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix logic check for rook, bishop, queen and add comment" />
+    <MESSAGE value="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu" />
   </component>
 </project>
