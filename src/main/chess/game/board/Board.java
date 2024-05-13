@@ -102,17 +102,44 @@ public class Board {
     public List<Square> highlightMovableSquares(Square selectedSquare) {
         List<Square> movableSquares = new ArrayList<>();
         Piece selectedPiece = selectedSquare.getPiece();
+        Team currentTeam = selectedPiece.getTeam();
 
+        // Kiểm tra toàn bộ bàn cờ
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Square destinationSquare = squares[row][col];
-                if (selectedPiece != null && selectedPiece.canMove(this, selectedSquare, destinationSquare)) {
-                    movableSquares.add(destinationSquare);
+                Piece destinationPiece = destinationSquare.getPiece();
+
+                // Kiểm tra nếu quân được chọn có thể đi đến địa điểm
+                if (selectedPiece.canMove(this, selectedSquare, destinationSquare)) {
+                    // Tạm thời di chuyển quân đã chọn đến ô đích
+                    destinationSquare.setPiece(selectedPiece);
+                    selectedSquare.setPiece(null);
+
+                    // Kiểm tra xem sau khi di chuyển vua có bị chiếu không
+                    boolean inCheck = isKingInCheck(currentTeam);
+
+                    // Nếu vua không bị chiếu, thêm vào danh sách các ô có thể di chuyển
+                    if (!inCheck) {
+                        movableSquares.add(destinationSquare);
+                    }
+
+                    // Nếu không, đặt quân lại vị trí ban đầu
+                    selectedSquare.setPiece(selectedPiece);
+                    destinationSquare.setPiece(destinationPiece);
                 }
             }
         }
 
-        return movableSquares;
+        return movableSquares; // Trả lại các ô quân đó có thể di chuyển
+    }
+
+    private boolean isKingInCheck(Team team) {
+        // Tìm vị trí vua cùng phe
+        Square kingSquare = findKingSquare(team);
+
+        // Kiểm tra vua bị chiếu
+        return Checkmate.kingInCheck(this, kingSquare);
     }
 
     // Tìm vị trí của vua dựa vào đội
