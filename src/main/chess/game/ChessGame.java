@@ -3,6 +3,8 @@ package main.chess.game;
 import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 
+import javax.swing.*;
+
 public class ChessGame {
     private Board board;
     private Team currentTurn;
@@ -14,30 +16,34 @@ public class ChessGame {
         this.status = GameStatus.ACTIVE;
     }
 
+    public Team getCurrentTurn() {
+        return currentTurn;
+    }
+
     public void switchTurn() {
         currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
     }
 
-    private void checkGameStatus(Board board, Square start) {
-        if (Checkmate.kingInCheck(board, start)) {
+    private void checkGameStatus(Square start, Square end) {
+        if (Checkmate.isCheckMate(board, start, end)) {
             status = (currentTurn == Team.WHITE) ? GameStatus.BLACK_WIN : GameStatus.WHITE_WIN;
+            endGame();
         } else {
             status = GameStatus.ACTIVE;
         }
     }
 
-    public Team getCurrentTurn() {
-        return currentTurn;
+    private void endGame(){
+        String winner = null;
+        if (status == GameStatus.BLACK_WIN){
+            winner = "Black";
+        } if (status == GameStatus.WHITE_WIN){
+            winner = "White";
+        }
+        JOptionPane.showMessageDialog(null, "Checkmate! " + winner + " wins!", "Checkmate", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public Board getBoard() {
         return board;
     }
-
-    public boolean isActive() {
-        return status == GameStatus.ACTIVE;
-    }
-
-    public boolean hasEnded() {
-        return status == GameStatus.BLACK_WIN || status == GameStatus.WHITE_WIN; }
 }

@@ -1,6 +1,7 @@
 package main.chess.ui;
 
-import main.chess.game.ChessGame;
+import main.chess.game.Checkmate;
+import main.chess.game.Team;
 import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 import main.chess.game.pieces.Piece;
@@ -12,15 +13,20 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 public class ChessBoardUI extends JPanel {
-    private ChessGame chessGame;
     private Board board;
     private JPanel[][] squarePanels;
     private Square selectedSquare;
     private List<Square> movableSquares;
+    private Team currentTurn;
+
+    public Team getCurrentTurn() {
+        return currentTurn;
+    }
 
     public ChessBoardUI(Board board) {
         this.board = board;
         this.squarePanels = new JPanel[8][8];
+        this.currentTurn = Team.WHITE; // Lượt đầu mặc định là trắng
         setLayout(new GridLayout(8, 8));
         initializeBoardUI();
         addMouseListener(new MouseAdapter() {
@@ -29,7 +35,7 @@ public class ChessBoardUI extends JPanel {
                 int row = e.getY() / (getHeight() / 8);
                 int col = e.getX() / (getWidth() / 8);
                 Square clickedSquare = board.getSquare(row, col);
-                if (selectedSquare == null && clickedSquare.isOccupied()) {
+                if (selectedSquare == null && clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
                     selectedSquare = clickedSquare;
                     squarePanels[row][col].setBackground(Color.BLUE);
                     movableSquares = board.highlightMovableSquares(selectedSquare);
@@ -38,6 +44,8 @@ public class ChessBoardUI extends JPanel {
                     boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
                     if (moveSuccessful) {
                         updateBoard();
+                        // Đổi lượt sau khi di chuyển hợp lệ
+                        currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
                     }
                     selectedSquare = null;
                     movableSquares = null;
@@ -77,7 +85,13 @@ public class ChessBoardUI extends JPanel {
             for (Square square : movableSquares) {
                 int row = square.getRow();
                 int col = square.getCol();
-                squarePanels[row][col].setBackground(Color.GREEN);
+                if (square.isOccupied() && square.getPiece().getTeam() != selectedSquare.getPiece().getTeam()) {
+                    // Ô có thể tấn công địch
+                    squarePanels[row][col].setBackground(Color.ORANGE);
+                } else {
+                    // Ô có thể di chuyển
+                    squarePanels[row][col].setBackground(Color.GREEN);
+                }
             }
         }
     }
@@ -86,6 +100,25 @@ public class ChessBoardUI extends JPanel {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 squarePanels[i][j].setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.GRAY);
+            }
+        }
+        // Sau khi reset vẫn giữ lại màu những ô chiếu
+        checkForChecks();
+    }
+
+    private void checkForChecks() {
+        // Tìm vị trí vua
+        Square kingSquare = board.findKingSquare(currentTurn);
+
+        // Kiểm tra nếu vua đang bị chiếu
+        if (Checkmate.kingInCheck(board, kingSquare)) {
+            // Lấy những ô đang chiếu
+            List<Square> checkingPieces = Checkmate.findCheckingPieces(board, kingSquare);
+
+            // Cảnh báo chiếu
+            squarePanels[kingSquare.getRow()][kingSquare.getCol()].setBackground(Color.RED);
+            for (Square checkingPiece : checkingPieces) {
+                squarePanels[checkingPiece.getRow()][checkingPiece.getCol()].setBackground(Color.RED);
             }
         }
     }

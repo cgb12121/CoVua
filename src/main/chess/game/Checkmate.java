@@ -4,7 +4,50 @@ import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 import main.chess.game.pieces.PieceType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Checkmate {
+
+    //TODO: kiểm tra xem
+    //TODO: 1. Kiểm tra vua có đang bị chiếu hay không  +++Done
+    //TODO: 2. Kiểm tra vua có còn các di chuyển hợp lệ hay không
+    //TODO: 3. Kiểm tra xem có quân nào có thể chặn đường chiếu hay không
+    //TODO: 4. Kiểm tra xem có quân nào phe ta có thể ăn quân đang chiếu không
+    public static boolean isCheckMate(Board board, Square kingPos, Square newPos){
+        if (!kingInCheck(board, kingPos)){
+            return false;
+        }
+
+        if (kingPos.getPiece().getType() == PieceType.KING && kingPos.getPiece().canMove(board, kingPos, newPos)){
+            return false;
+        }
+
+        if (canStopCheck(board, kingPos, newPos)){
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean canStopCheck(Board board, Square kingPos, Square end){
+        Team kingTeam = kingPos.getPiece().getTeam();
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Square teamate = board.getSquare(row, col);
+                // Check if the teamate is occupied by a piece of the same team as the king
+                if (teamate.isOccupied() && teamate.getPiece().getTeam() == kingTeam) {
+                    if (board.movePiece(teamate, end)){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public static boolean kingInCheck(Board board, Square kingPos) {
         return checkByPawn(board, kingPos, kingPos) ||
                 checkByKnight(board, kingPos, kingPos) ||
@@ -12,6 +55,25 @@ public class Checkmate {
                 checkByBishop(board, kingPos, kingPos) ||
                 checkByQueen(board, kingPos, kingPos) ||
                 checkByKing(board, kingPos, kingPos);
+    }
+
+    // New method to find king's position and checking pieces
+    public static List<Square> findCheckingPieces(Board board, Square kingPos) {
+        List<Square> checkingPieces = new ArrayList<>();
+
+        // Iterate through all squares to find checking pieces
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                Square square = board.getSquare(row, col);
+                if (square.isOccupied() && square.getPiece().getTeam() != kingPos.getPiece().getTeam()) {
+                    // If the piece can move to king's position, it's a checking piece
+                    if (square.getPiece().canMove(board, square, kingPos)) {
+                        checkingPieces.add(square);
+                    }
+                }
+            }
+        }
+        return checkingPieces;
     }
 
     public static boolean checkByRook(Board board, Square kingPos, Square kingNewPos) {
