@@ -2,8 +2,9 @@ package main.chess.ui;
 
 import main.chess.game.pieces.Piece;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Image;
 
 public class PieceIcon extends JLabel {
     private static final int SQUARE_SIZE = 100;

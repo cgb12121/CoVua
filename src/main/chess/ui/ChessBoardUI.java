@@ -4,10 +4,15 @@ import main.chess.game.Checkmate;
 import main.chess.game.Team;
 import main.chess.game.board.Board;
 import main.chess.game.board.Square;
+import main.chess.game.pieces.Pawn;
 import main.chess.game.pieces.Piece;
+import main.chess.game.pieces.PieceType;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -29,6 +34,7 @@ public class ChessBoardUI extends JPanel {
         this.currentTurn = Team.WHITE; // Lượt đầu mặc định là trắng
         setLayout(new GridLayout(8, 8));
         initializeBoardUI();
+        checkForCheckmate();
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -46,6 +52,7 @@ public class ChessBoardUI extends JPanel {
                         updateBoard();
                         // Đổi lượt sau khi di chuyển hợp lệ
                         currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
+                        checkForCheckmate();
                     }
                     selectedSquare = null;
                     movableSquares = null;
@@ -106,6 +113,13 @@ public class ChessBoardUI extends JPanel {
         checkForChecks();
     }
 
+    public void updateBoard() {
+        removeAll();
+        initializeBoardUI();
+        revalidate();
+        repaint();
+    }
+
     private void checkForChecks() {
         // Tìm vị trí vua
         Square kingSquare = board.findKingSquare(currentTurn);
@@ -123,10 +137,30 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
-    public void updateBoard() {
-        removeAll();
-        initializeBoardUI();
-        revalidate();
-        repaint();
+    private void checkForCheckmate() {
+        Square kingSquare = board.findKingSquare(currentTurn);
+        List<Square> checkingPieces = Checkmate.findCheckingPieces(board, kingSquare);
+
+        // Kiểm tra nếu vua đang bị chiếu
+        if (Checkmate.kingInCheck(board, kingSquare)) {
+            for (Square checkingPiece : checkingPieces) {
+                // Kiểm tra nếu có quân có thể ăn quân chiếu hoặc chặn đường chiếu
+                for (int row = 0; row < 8; row++) {
+                    for (int col = 0; col < 8; col++) {
+                        Square blockSquare = board.getSquare(row, col);
+                        if (blockSquare.isOccupied() && blockSquare.getPiece().getTeam() == currentTurn) {
+                            if (blockSquare.getPiece().canMove(board, blockSquare, checkingPiece) ||
+                                    blockSquare.getPiece().canMove(board, blockSquare, kingSquare)) {
+                                // Nếu có, không phải chiếu hết
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+            // Nếu không, đó là chiếu hết
+            String winner = (currentTurn == Team.WHITE) ? "Black" : "White";
+            JOptionPane.showMessageDialog(this, winner + " wins by checkmate!");
+        }
     }
 }

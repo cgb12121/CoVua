@@ -8,7 +8,6 @@ public class Pawn extends Piece {
     public Pawn(Team team) {
         super(PieceType.PAWN,team);
     }
-
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startRow = start.getRow();

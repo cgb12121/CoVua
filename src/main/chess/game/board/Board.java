@@ -93,7 +93,6 @@ public class Board {
             end.setPiece(null);
             return false;
         }
-
         // Nếu di chuyển không làm vua bị chiếu, cập nhật bàn sau nước đi
         return true;
     }

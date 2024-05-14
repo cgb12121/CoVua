@@ -3,7 +3,8 @@ package main;
 import main.chess.game.ChessGame;
 import main.chess.ui.ChessBoardUI;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+
 public class Main {
     public static void main(String[] args) {
         ChessGame game = new ChessGame();

@@ -11,7 +11,6 @@ public class King extends Piece {
     public King(Team team) {
         super(PieceType.KING,team);
     }
-
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startX = start.getRow();

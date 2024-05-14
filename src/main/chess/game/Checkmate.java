@@ -8,46 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Checkmate {
-
-    //TODO: kiểm tra xem
-    //TODO: 1. Kiểm tra vua có đang bị chiếu hay không  +++Done
-    //TODO: 2. Kiểm tra vua có còn các di chuyển hợp lệ hay không
-    //TODO: 3. Kiểm tra xem có quân nào có thể chặn đường chiếu hay không
-    //TODO: 4. Kiểm tra xem có quân nào phe ta có thể ăn quân đang chiếu không
-    public static boolean isCheckMate(Board board, Square kingPos, Square newPos){
-        if (!kingInCheck(board, kingPos)){
-            return false;
-        }
-
-        if (kingPos.getPiece().getType() == PieceType.KING && kingPos.getPiece().canMove(board, kingPos, newPos)){
-            return false;
-        }
-
-        if (canStopCheck(board, kingPos, newPos)){
-            return false;
-        }
-
-        return true;
-    }
-
-    public static boolean canStopCheck(Board board, Square kingPos, Square end){
-        Team kingTeam = kingPos.getPiece().getTeam();
-
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                Square teamate = board.getSquare(row, col);
-                // Check if the teamate is occupied by a piece of the same team as the king
-                if (teamate.isOccupied() && teamate.getPiece().getTeam() == kingTeam) {
-                    if (board.movePiece(teamate, end)){
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
+    // Kiểm tra nếu vua đang bị chiếu
     public static boolean kingInCheck(Board board, Square kingPos) {
         return checkByPawn(board, kingPos, kingPos) ||
                 checkByKnight(board, kingPos, kingPos) ||
@@ -57,16 +18,16 @@ public class Checkmate {
                 checkByKing(board, kingPos, kingPos);
     }
 
-    // New method to find king's position and checking pieces
+    // Tìm vị trí của vua và quân cờ đang chiếu vua
     public static List<Square> findCheckingPieces(Board board, Square kingPos) {
         List<Square> checkingPieces = new ArrayList<>();
 
-        // Iterate through all squares to find checking pieces
+        // Duyệt qua bàn cờ
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 Square square = board.getSquare(row, col);
                 if (square.isOccupied() && square.getPiece().getTeam() != kingPos.getPiece().getTeam()) {
-                    // If the piece can move to king's position, it's a checking piece
+                    // Nếu quân khác phe có thể tiến tới ô của vua tức là quân đó đang chiếu
                     if (square.getPiece().canMove(board, square, kingPos)) {
                         checkingPieces.add(square);
                     }
@@ -76,6 +37,7 @@ public class Checkmate {
         return checkingPieces;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi xe
     public static boolean checkByRook(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -119,6 +81,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi tịnh
     public static boolean checkByBishop(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -162,6 +125,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi hậu
     public static boolean checkByQueen(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -240,6 +204,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi vua
     public static boolean checkByKing(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -267,6 +232,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi tốt
     public static boolean checkByPawn(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -308,6 +274,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi mã
     public static boolean checkByKnight(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -332,6 +299,7 @@ public class Checkmate {
         return false;
     }
 
+    // Kiểm tra nếu có quân cờ ở giữa 2 ô trên bàn cờ
     private static boolean isSquareBetweenUnblocked(Board board, Square start, Square end) {
         int startX = start.getRow();
         int startY = start.getCol();
