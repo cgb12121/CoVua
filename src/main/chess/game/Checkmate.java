@@ -8,6 +8,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Checkmate {
+
+    public static boolean canKingEscape(Board board, Square kingSquare) {
+        int kingRow = kingSquare.getRow();
+        int kingCol = kingSquare.getCol();
+        int[][] possibleMoves = {
+                {-1, -1}, {-1, 0}, {-1, 1},
+                {0, -1},          {0, 1},
+                {1, -1}, {1, 0},  {1, 1}
+        };
+
+        for (int[] move : possibleMoves) {
+            int newRow = kingRow + move[0];
+            int newCol = kingCol + move[1];
+
+            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                Square newSquare = board.getSquare(newRow, newCol);
+                if (!newSquare.isOccupied() || newSquare.getPiece().getTeam() != kingSquare.getPiece().getTeam()) {
+                    if (checkByPawn(board, kingSquare, newSquare) ||
+                            checkByKnight(board, kingSquare, newSquare) ||
+                            checkByRook(board, kingSquare, newSquare) ||
+                            checkByBishop(board, kingSquare, newSquare) ||
+                            checkByQueen(board, kingSquare, newSquare) ||
+                            checkByKing(board, kingSquare, newSquare)) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true; // Vua không chạy thoát được
+    }
+
     // Kiểm tra nếu vua đang bị chiếu
     public static boolean kingInCheck(Board board, Square kingPos) {
         return checkByPawn(board, kingPos, kingPos) ||

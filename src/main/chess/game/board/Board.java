@@ -1,15 +1,24 @@
 package main.chess.game.board;
 
 import main.chess.game.Checkmate;
-import main.chess.game.pieces.*;
 import main.chess.game.Team;
+import main.chess.game.pieces.Bishop;
+import main.chess.game.pieces.King;
+import main.chess.game.pieces.Knight;
+import main.chess.game.pieces.Pawn;
+import main.chess.game.pieces.Piece;
+import main.chess.game.pieces.PieceType;
+import main.chess.game.pieces.Queen;
+import main.chess.game.pieces.Rook;
+import main.chess.ui.PromotionDialog;
 
+import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
     private Square[][] squares;
-
+    private Move lastMove;
     // Tạo bảng mới khi bắt đầu
     public Board() {
         this.squares = new Square[8][8];
@@ -63,38 +72,99 @@ public class Board {
         return squares[row][col];
     }
 
-    public void removePiece(int row, int col) {
-        squares[row][col].setPiece(null);
-    }
-
-    public void placePiece(Piece piece, int row, int col) {
-        Square square = squares[row][col];
-        square.setPiece(piece);
-    }
-
-    // Di chuyển quân cờ
+    // Di chuyển các quân cờ trên bàn cờ
     public boolean movePiece(Square start, Square end) {
         if (start == null || end == null || start == end || !start.isOccupied() || !start.getPiece().canMove(this, start, end)) {
             return false;
         }
 
         Piece piece = start.getPiece();
+        boolean isEnPassant = false;
+        boolean isCastling = false;
+        int castlingRookCol = -1;
 
-        // Tạm thời xóa ô đã chọn để kiểm tra nếu sau khi nó di chuyển vua sẽ bị chiếu
-        // Nếu ô end có quân dịch coi như là capture
+        // En passant
+        if (piece.getType() == PieceType.PAWN && Math.abs(start.getCol() - end.getCol()) == 1 && end.getPiece() == null) {
+            Move lastMove = getLastMove();
+            if (lastMove != null) {
+                Square lastStart = lastMove.getStart();
+                Square lastEnd = lastMove.getEnd();
+
+                if (lastEnd.getRow() == start.getRow() && Math.abs(lastEnd.getCol() - start.getCol()) == 1) {
+                    Piece movedPiece = lastEnd.getPiece();
+                    if (movedPiece != null && movedPiece.getType() == PieceType.PAWN && movedPiece.getTeam() != piece.getTeam()) {
+                        if (Math.abs(lastStart.getRow() - lastEnd.getRow()) == 2) {
+                            isEnPassant = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Kiểm tra castling
+        if (piece.getType() == PieceType.KING && Math.abs(end.getCol() - start.getCol()) == 2) {
+            isCastling = true;
+            castlingRookCol = end.getCol() == 6 ? 7 : 0;
+        }
+
+        // Tạm thời di chuyển các quân cờ/ăn quân cờ
         end.setPiece(piece);
         start.setPiece(null);
 
-        // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu
+        // Kiểm tra nếu sau khi di chuyển vua bị chiếu
         Square kingSquare = findKingSquare(piece.getTeam());
         if (Checkmate.kingInCheck(this, kingSquare)) {
-            // Nếu nước di chuyển đó làm vua bị chiếu, trả quân lại vị trí ban đầu
             start.setPiece(piece);
             end.setPiece(null);
             return false;
         }
-        // Nếu di chuyển không làm vua bị chiếu, cập nhật bàn sau nước đi
+
+        // Cập nhật last move nếu nó hợp lệ
+        this.lastMove = new Move(start, end);
+
+        // Loại bỏ quân tốt phía sau nếu đó là en passant
+        if (isEnPassant) {
+            int capturedPawnRow = piece.getTeam() == Team.WHITE ? end.getRow() + 1 : end.getRow() - 1;
+            squares[capturedPawnRow][end.getCol()].setPiece(null);
+        }
+
+        // Thực hiện nhập thành
+        if (isCastling) {
+            int rookNewCol = end.getCol() == 6 ? 5 : 3;
+            Square rookStart = getSquare(start.getRow(), castlingRookCol);
+            Square rookEnd = getSquare(start.getRow(), rookNewCol);
+            Piece rook = rookStart.getPiece();
+
+            rookEnd.setPiece(rook);
+            rookStart.setPiece(null);
+        }
+
+        // Thực hiện phong tốt
+        if (piece instanceof Pawn && (end.getRow() == 0 || end.getRow() == 7)) {
+            Piece promotedPiece = choosePromotionPiece(piece.getTeam());
+            end.setPiece(promotedPiece);
+        }
+
+        // Cập nhật vị trí
+        piece.move(start, end);
+        System.out.println(piece.getType() + "_" + piece.getTeam() + " from (" + (start.getRow() + 1) + "," + (start.getCol() + 1) +
+                                ") to " + "(" + (end.getRow() + 1) + "," + (end.getCol() + 1) + ")" );
+
         return true;
+    }
+
+    private Piece choosePromotionPiece(Team team) {
+        JFrame frame = new JFrame();
+        PromotionDialog dialog = new PromotionDialog(frame, team);
+        dialog.setVisible(true);
+
+        Piece chosenPiece = dialog.getChosenPiece();
+        return chosenPiece != null ? chosenPiece : new Queen(team);
+    }
+
+
+    public Move getLastMove() {
+        return lastMove;
     }
 
     // Cho các ô có thể di chuyển vào List

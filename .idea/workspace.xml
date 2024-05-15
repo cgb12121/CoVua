@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="update logic checkmate">
+      <change afterPath="$PROJECT_DIR$/src/main/chess/ui/PromotionDialog.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Todo" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ChessGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/GameStatus.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Knight.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/PieceIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/PieceIcon.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -136,7 +139,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715631331151</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update logic checkmate">
+      <option name="closed" value="true" />
+      <created>1715690382182</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715690382182</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

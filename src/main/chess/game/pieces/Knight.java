@@ -19,11 +19,14 @@ public class Knight extends Piece {
         int deltaRow = Math.abs(startRow - endRow);
         int deltaCol = Math.abs(startCol - endCol);
 
+        // Mã di chuyển hình chữ L
         if (endRow >= 0 && endRow <= 7 && endCol >= 0 && endCol <= 7) {
             if (deltaRow == 2 && deltaCol == 1 || deltaRow == 1 && deltaCol == 2) {
+                // Di chuyển đến ô trống
                 if (end.getPiece() == null) {
                     return true;
                 } else {
+                    // Ăn quân đối phương
                     return start.getPiece().getTeam() != end.getPiece().getTeam();
                 }
             }

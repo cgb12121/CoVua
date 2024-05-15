@@ -6,10 +6,9 @@ import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 import main.chess.game.pieces.Pawn;
 import main.chess.game.pieces.Piece;
-import main.chess.game.pieces.PieceType;
+import main.chess.game.pieces.Queen;
 
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -23,10 +22,6 @@ public class ChessBoardUI extends JPanel {
     private Square selectedSquare;
     private List<Square> movableSquares;
     private Team currentTurn;
-
-    public Team getCurrentTurn() {
-        return currentTurn;
-    }
 
     public ChessBoardUI(Board board) {
         this.board = board;
@@ -49,6 +44,7 @@ public class ChessBoardUI extends JPanel {
                 } else if (selectedSquare != null) {
                     boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
                     if (moveSuccessful) {
+                        handlePawnPromotion(clickedSquare);
                         updateBoard();
                         // Đổi lượt sau khi di chuyển hợp lệ
                         currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
@@ -143,24 +139,47 @@ public class ChessBoardUI extends JPanel {
 
         // Kiểm tra nếu vua đang bị chiếu
         if (Checkmate.kingInCheck(board, kingSquare)) {
+            boolean canBlockCheck = false;
+
             for (Square checkingPiece : checkingPieces) {
-                // Kiểm tra nếu có quân có thể ăn quân chiếu hoặc chặn đường chiếu
                 for (int row = 0; row < 8; row++) {
                     for (int col = 0; col < 8; col++) {
                         Square blockSquare = board.getSquare(row, col);
                         if (blockSquare.isOccupied() && blockSquare.getPiece().getTeam() == currentTurn) {
                             if (blockSquare.getPiece().canMove(board, blockSquare, checkingPiece) ||
                                     blockSquare.getPiece().canMove(board, blockSquare, kingSquare)) {
-                                // Nếu có, không phải chiếu hết
-                                return;
+                                canBlockCheck = true;
+                                break;
                             }
                         }
                     }
+                    if (canBlockCheck) break;
                 }
+                if (canBlockCheck) break;
             }
-            // Nếu không, đó là chiếu hết
-            String winner = (currentTurn == Team.WHITE) ? "Black" : "White";
-            JOptionPane.showMessageDialog(this, winner + " wins by checkmate!");
+
+            if (!canBlockCheck && !Checkmate.canKingEscape(board, kingSquare)) {
+                // Nếu vua không thể thoát và không thể chặn quân chiếu, đó là chiếu hết
+                String winner = (currentTurn == Team.WHITE) ? "Black" : "White";
+                JOptionPane.showMessageDialog(this, winner + " wins by checkmate!");
+            }
         }
     }
+
+    private void handlePawnPromotion(Square endSquare) {
+        if (endSquare.getPiece() instanceof Pawn && (endSquare.getRow() == 0 || endSquare.getRow() == 7)) {
+            PromotionDialog promotionDialog = new PromotionDialog((JFrame) SwingUtilities.getWindowAncestor(this), currentTurn);
+            promotionDialog.setVisible(true);
+
+            Piece chosenPiece = promotionDialog.getChosenPiece();
+            if (chosenPiece != null) {
+                endSquare.setPiece(chosenPiece);
+                updateBoard();
+            } else {
+                endSquare.setPiece(new Queen(currentTurn));
+                updateBoard();
+            }
+        }
+    }
+
 }

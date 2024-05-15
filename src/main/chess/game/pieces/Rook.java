@@ -17,6 +17,7 @@ public class Rook extends Piece {
         int endRow = end.getRow();
         int endCol = end.getCol();
 
+        // Di chuyển thẳng, sang ngang
         if (end.isOccupied()) {
             if (start.getPiece().getTeam() != end.getPiece().getTeam()) {
                 if (startRow == endRow && startCol != endCol) {
@@ -41,6 +42,7 @@ public class Rook extends Piece {
                 }
             }
         }
+        // Trên đường đến bị chặn
         else {
             if (startRow == endRow && startCol != endCol) {
                 int minCol = Math.min(startCol, endCol);
@@ -64,6 +66,11 @@ public class Rook extends Piece {
             }
         }
         return false;
+    }
+
+    @Override
+    public void move(Square start, Square end) {
+        super.move(start, end);
     }
 
     @Override

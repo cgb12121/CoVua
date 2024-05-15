@@ -8,12 +8,14 @@ public class Queen extends Piece {
     private Rook rook;
     private Bishop bishop;
 
+    // Hậu = xe + tượng
     public Queen(Team team) {
         super(PieceType.QUEEN,team);
         this.rook = new Rook(team);
         this.bishop = new Bishop(team);
     }
 
+    // Phương thức di chuyển giống xe và tượng
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         return rook.canMove(board, start, end) || bishop.canMove(board, start, end);
