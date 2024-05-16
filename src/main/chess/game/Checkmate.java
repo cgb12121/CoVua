@@ -18,6 +18,7 @@ public class Checkmate {
                 {1, -1}, {1, 0},  {1, 1}
         };
 
+        // Di
         for (int[] move : possibleMoves) {
             int newRow = kingRow + move[0];
             int newCol = kingCol + move[1];
