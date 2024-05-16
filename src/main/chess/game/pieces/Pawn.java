@@ -45,11 +45,16 @@ public class Pawn extends Piece {
                 Square lastStart = lastMove.getStart();
                 Square lastEnd = lastMove.getEnd();
 
+                // Kiem tra tot doi phuong di chuyen 2 o trong 1 luot
                 if (lastEnd.getRow() == startRow && Math.abs(lastEnd.getCol() - startCol) == 1) {
                     Piece movedPiece = lastEnd.getPiece();
                     if (movedPiece != null && movedPiece.getType() == PieceType.PAWN && movedPiece.getTeam() != this.getTeam()) {
                         if (Math.abs(lastStart.getRow() - lastEnd.getRow()) == 2) {
-                            return true;
+                            // Kiem tra phuong huong cua quan tot doi phuong
+                            if ((lastEnd.getCol() == startCol + 1 && endCol == startCol + 1) ||
+                                    (lastEnd.getCol() == startCol - 1 && endCol == startCol - 1)) {
+                                return true;
+                            }
                         }
                     }
                 }
