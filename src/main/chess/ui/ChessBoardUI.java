@@ -3,9 +3,11 @@ package main.chess.ui;
 import main.chess.game.Checkmate;
 import main.chess.game.Team;
 import main.chess.game.board.Board;
+import main.chess.game.board.Move;
 import main.chess.game.board.Square;
 import main.chess.game.pieces.Pawn;
 import main.chess.game.pieces.Piece;
+import main.chess.game.pieces.PieceType;
 import main.chess.game.pieces.Queen;
 
 import javax.swing.*;
@@ -88,8 +90,12 @@ public class ChessBoardUI extends JPanel {
             for (Square square : movableSquares) {
                 int row = square.getRow();
                 int col = square.getCol();
+
                 if (square.isOccupied() && square.getPiece().getTeam() != selectedSquare.getPiece().getTeam()) {
                     // Ô có thể tấn công địch
+                    squarePanels[row][col].setBackground(Color.ORANGE);
+                } else if (isEnPassantCapture(square)) {
+                    // Ô en passant có thể tấn công
                     squarePanels[row][col].setBackground(Color.ORANGE);
                 } else {
                     // Ô có thể di chuyển
@@ -97,6 +103,27 @@ public class ChessBoardUI extends JPanel {
                 }
             }
         }
+    }
+
+    private boolean isEnPassantCapture(Square endSquare) {
+        Piece selectedPiece = selectedSquare.getPiece();
+        if (selectedPiece instanceof Pawn && Math.abs(selectedSquare.getCol() - endSquare.getCol()) == 1 && endSquare.getPiece() == null) {
+            Move lastMove = board.getLastMove();
+            if (lastMove != null) {
+                Square lastStart = lastMove.getStart();
+                Square lastEnd = lastMove.getEnd();
+
+                if (lastEnd.getRow() == selectedSquare.getRow() && Math.abs(lastEnd.getCol() - selectedSquare.getCol()) == 1) {
+                    Piece movedPiece = lastEnd.getPiece();
+                    if (movedPiece != null && movedPiece.getType() == PieceType.PAWN && movedPiece.getTeam() != selectedPiece.getTeam()) {
+                        if (Math.abs(lastStart.getRow() - lastEnd.getRow()) == 2) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     private void resetSquareColors() {
@@ -181,5 +208,4 @@ public class ChessBoardUI extends JPanel {
             }
         }
     }
-
 }

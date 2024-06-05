@@ -167,7 +167,6 @@ public class Board {
         return lastMove;
     }
 
-    // Cho các ô có thể di chuyển vào List
     public List<Square> highlightMovableSquares(Square selectedSquare) {
         List<Square> movableSquares = new ArrayList<>();
         Piece selectedPiece = selectedSquare.getPiece();
@@ -194,6 +193,25 @@ public class Board {
                     }
 
                     // Nếu không, đặt quân lại vị trí ban đầu
+                    selectedSquare.setPiece(selectedPiece);
+                    destinationSquare.setPiece(destinationPiece);
+                }
+
+                // Kiểm tra các bước di chuyển en passant
+                if (selectedPiece instanceof Pawn && selectedPiece.canMove(this, selectedSquare, destinationSquare)) {
+                    // Tạm thời di chuyển quân đã chọn đến ô đích
+                    destinationSquare.setPiece(selectedPiece);
+                    selectedSquare.setPiece(null);
+
+                    // Kiểm tra xem sau khi di chuyển vua có bị chiếu không
+                    boolean inCheck = isKingInCheck(currentTeam);
+
+                    // Nếu vua không bị chiếu, thêm vào danh sách các ô có thể di chuyển
+                    if (!inCheck) {
+                        movableSquares.add(destinationSquare);
+                    }
+
+                    // Đặt lại quân cờ về vị trí ban đầu
                     selectedSquare.setPiece(selectedPiece);
                     destinationSquare.setPiece(destinationPiece);
                 }

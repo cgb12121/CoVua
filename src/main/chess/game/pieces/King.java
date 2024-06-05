@@ -13,6 +13,7 @@ public class King extends Piece {
         super(PieceType.KING,team);
         this.hasMoved = false;
     }
+
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startX = start.getRow();
@@ -27,7 +28,7 @@ public class King extends Piece {
         }
 
         // Nhập thành
-        if (!hasMoved && Math.abs(endY - startY) == 2 && startX == endX) {
+        if (!hasMoved && (Math.abs(endY - startY) == 2 || Math.abs(endY - startY) == 3) && startX == endX) {
             if (isCastlingMove(board, start, end)) {
                 return true;
             }
