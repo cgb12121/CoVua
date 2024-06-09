@@ -2,6 +2,7 @@ package main.chess.ui;
 
 import main.chess.game.Checkmate;
 import main.chess.game.Team;
+import main.chess.game.ai.AI;
 import main.chess.game.board.Board;
 import main.chess.game.board.Move;
 import main.chess.game.board.Square;
@@ -11,11 +12,10 @@ import main.chess.game.pieces.PieceType;
 import main.chess.game.pieces.Queen;
 
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.util.List;
 
 public class ChessBoardUI extends JPanel {
@@ -24,40 +24,125 @@ public class ChessBoardUI extends JPanel {
     private Square selectedSquare;
     private List<Square> movableSquares;
     private Team currentTurn;
+    private boolean gameOver;
+    private AI ai;
+    private boolean isAITurn;
 
     public ChessBoardUI(Board board) {
         this.board = board;
         this.squarePanels = new JPanel[8][8];
         this.currentTurn = Team.WHITE; // Lượt đầu mặc định là trắng
-        setLayout(new GridLayout(8, 8));
-        initializeBoardUI();
-        checkForCheckmate();
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = e.getY() / (getHeight() / 8);
-                int col = e.getX() / (getWidth() / 8);
-                Square clickedSquare = board.getSquare(row, col);
-                if (selectedSquare == null && clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
-                    selectedSquare = clickedSquare;
-                    squarePanels[row][col].setBackground(Color.BLUE);
-                    movableSquares = board.highlightMovableSquares(selectedSquare);
-                    highlightMovableSquares();
-                } else if (selectedSquare != null) {
-                    boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
-                    if (moveSuccessful) {
-                        handlePawnPromotion(clickedSquare);
-                        updateBoard();
-                        // Đổi lượt sau khi di chuyển hợp lệ
-                        currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
-                        checkForCheckmate();
+        this.gameOver = false;
+        this.ai = new AI(board, squarePanels);
+
+        String[] options = {"Human vs Human", "Human vs AI"};
+        int choice = JOptionPane.showOptionDialog(null, "Select Game Mode", "Game Mode",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
+
+        if (choice == 0) {
+            //Human vs Human
+            setLayout(new GridLayout(8, 8));
+            initializeBoardUI();
+            checkForCheckmate();
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    int row = e.getY() / (getHeight() / 8);
+                    int col = e.getX() / (getWidth() / 8);
+                    Square clickedSquare = board.getSquare(row, col);
+                    if (selectedSquare == null && clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
+                        selectedSquare = clickedSquare;
+                        squarePanels[row][col].setBackground(Color.BLUE);
+                        movableSquares = board.highlightMovableSquares(selectedSquare);
+                        highlightMovableSquares();
+                    } else if (selectedSquare != null) {
+                        boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
+                        if (moveSuccessful) {
+                            handlePawnPromotion(clickedSquare);
+                            updateBoard();
+                            // Đổi lượt sau khi di chuyển hợp lệ
+                            currentTurn = (currentTurn == Team.WHITE) ? Team.BLACK : Team.WHITE;
+                            checkForCheckmate();
+                        }
+                        selectedSquare = null;
+                        movableSquares = null;
+                        resetSquareColors();
                     }
-                    selectedSquare = null;
-                    movableSquares = null;
-                    resetSquareColors();
                 }
-            }
-        });
+            });
+        }
+
+        if (choice == 1) {
+            // Human vs AI
+            setLayout(new GridLayout(8, 8));
+            initializeBoardUI();
+            checkForChecks();
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (currentTurn == Team.WHITE && !gameOver) { //Trắng là người chơi
+                        checkForChecks();
+                        int row = e.getY() / (getHeight() / 8);
+                        int col = e.getX() / (getWidth() / 8);
+                        Square clickedSquare = board.getSquare(row, col);
+
+                        if (selectedSquare == null) {
+                            // Chọn ô, nếu sai thì chọn lại
+                            if (clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
+                                selectedSquare = clickedSquare;
+                                squarePanels[row][col].setBackground(Color.BLUE);
+                                movableSquares = board.highlightMovableSquares(selectedSquare);
+                                highlightMovableSquares();
+                            }
+                        } else {
+                            if (clickedSquare == selectedSquare) {
+                                selectedSquare = null;
+                                movableSquares = null;
+                                checkForChecks();
+                                resetSquareColors();
+                            } else if (movableSquares != null && movableSquares.contains(clickedSquare)) {
+                                //Di chuyển hoặc ăn khi bước đi hợp lệ
+                                boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
+                                checkForChecks();
+                                if (moveSuccessful) {
+                                    handlePawnPromotion(clickedSquare);
+                                    updateBoard();
+                                    resetSquareColors();
+                                    checkForCheckmate();
+                                    selectedSquare = null;
+                                    movableSquares = null;
+                                    if (!gameOver) {
+                                        checkForChecks();
+                                        currentTurn = Team.BLACK;
+                                        // AI move trong thread mới
+                                        new Thread(() -> {
+                                            ai.makeAIMove(currentTurn); // lượt AI
+                                            SwingUtilities.invokeLater(() -> {
+                                                updateBoard();
+                                                checkForChecks();
+                                                checkForCheckmate();
+                                                if (!gameOver) {
+                                                    currentTurn = Team.WHITE;
+                                                }
+                                            });
+                                        }).start();
+                                    }
+                                } else {
+                                    selectedSquare = null;
+                                    movableSquares = null;
+                                }
+                            } else {
+                                // Hủy chọn các ô khi bước đi không hợp lệ
+                                selectedSquare = null;
+                                movableSquares = null;
+                                checkForChecks();
+                                resetSquareColors();
+                            }
+                        }
+                    }
+                }
+            });
+        }
     }
 
     private void initializeBoardUI() {
@@ -78,6 +163,13 @@ public class ChessBoardUI extends JPanel {
             Piece piece = square.getPiece();
             PieceIcon pieceIcon = new PieceIcon(piece);
             JPanel squarePanel = squarePanels[square.getRow()][square.getCol()];
+
+            squarePanel.setLayout(new GridBagLayout());
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.anchor = GridBagConstraints.CENTER;
+
             squarePanel.removeAll();
             squarePanel.add(pieceIcon);
             squarePanel.revalidate();
@@ -141,6 +233,7 @@ public class ChessBoardUI extends JPanel {
         initializeBoardUI();
         revalidate();
         repaint();
+        checkForChecks();
     }
 
     private void checkForChecks() {
@@ -188,7 +281,8 @@ public class ChessBoardUI extends JPanel {
             if (!canBlockCheck && !Checkmate.canKingEscape(board, kingSquare)) {
                 // Nếu vua không thể thoát và không thể chặn quân chiếu, đó là chiếu hết
                 String winner = (currentTurn == Team.WHITE) ? "Black" : "White";
-                JOptionPane.showMessageDialog(this, winner + " wins by checkmate!");
+                JOptionPane.showMessageDialog(this, winner + " Thắng!");
+                gameOver = true;
             }
         }
     }

@@ -18,7 +18,8 @@ import java.util.List;
 
 public class Board {
     private Square[][] squares;
-    private Move lastMove;
+    public Move lastMove;
+
     // Tạo bảng mới khi bắt đầu
     public Board() {
         this.squares = new Square[8][8];
@@ -30,6 +31,11 @@ public class Board {
         // Quân trắng
         for (int col = 0; col < 8; col++) {
             squares[6][col] = new Square(6, col, new Pawn(Team.WHITE));
+
+//            Test AI promotion
+//            if (col == 0){
+//                squares[6][col] = new Square(6, col, new Pawn(Team.BLACK));
+//            }
         }
 
         squares[7][0] = new Square(7, 0, new Rook(Team.WHITE));
@@ -243,5 +249,4 @@ public class Board {
         }
         return null;
     }
-
 }

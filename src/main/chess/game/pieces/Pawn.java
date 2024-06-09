@@ -8,7 +8,8 @@ import main.chess.game.Team;
 public class Pawn extends Piece {
     public Pawn(Team team) {
         super(PieceType.PAWN,team);
-    } //TODO: Them phuong thuc cho Promotion
+    }
+
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startRow = start.getRow();
