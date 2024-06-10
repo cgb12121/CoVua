@@ -6,6 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="add AI brain">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Checkmate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ChessGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ChessGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ai/PiecePositionValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ai/PiecePositionValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ai/PieceValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ai/PieceValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Square.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/PieceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/PieceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Rook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/PieceIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/PieceIcon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/PromotionDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/PromotionDialog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +220,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717947081856</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add AI brain">
+      <option name="closed" value="true" />
+      <created>1718037435613</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1718037435613</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

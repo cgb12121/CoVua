@@ -8,9 +8,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * Lớp PromotionDialog đại diện cho một hộp thoại để chọn quân cờ thăng cấp khi một quân tốt đạt đến cuối bàn cờ.
+ */
 public class PromotionDialog extends JDialog {
     private Piece chosenPiece;
 
+    /**
+     * Constructor của lớp PromotionDialog.
+     *
+     * @param parent Cửa sổ cha của hộp thoại.
+     * @param team   Đội của người chơi cần thăng cấp quân cờ.
+     */
     public PromotionDialog(JFrame parent, Team team) {
         super(parent, "Choose Promotion", true);
         setLayout(new GridLayout(1, 4));
@@ -29,6 +38,13 @@ public class PromotionDialog extends JDialog {
         setLocationRelativeTo(parent);
     }
 
+    /**
+     * Phương thức tạo nút cho một loại quân cờ.
+     *
+     * @param pieceName Tên của loại quân cờ.
+     * @param piece     Quân cờ tương ứng.
+     * @return Nút được tạo.
+     */
     private JButton createPieceButton(String pieceName, Piece piece) {
         JButton button = new JButton(pieceName);
         button.addActionListener(e -> {
@@ -38,6 +54,11 @@ public class PromotionDialog extends JDialog {
         return button;
     }
 
+    /**
+     * Phương thức lấy quân cờ được chọn cho thăng cấp.
+     *
+     * @return Quân cờ được chọn cho thăng cấp.
+     */
     public Piece getChosenPiece() {
         return chosenPiece;
     }

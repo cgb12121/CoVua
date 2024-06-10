@@ -1,5 +1,8 @@
 package main.chess.game.ai;
 
+/**
+ * Lớp chứa giá trị của các quân cờ trong trò chơi cờ vua.
+ */
 public class PieceValue {
     public static final int PAWN_VALUE = 100;
     public static final int KNIGHT_VALUE = 300;

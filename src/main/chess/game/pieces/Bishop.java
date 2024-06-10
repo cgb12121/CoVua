@@ -4,11 +4,27 @@ import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 import main.chess.game.Team;
 
+/**
+ * Lớp đại diện cho quân Tượng trong trò chơi cờ vua.
+ */
 public class Bishop extends Piece {
+    /**
+     * Khởi tạo một quân Tượng với đội tương ứng.
+     *
+     * @param team Đội của quân Tượng
+     */
     public Bishop(Team team) {
         super(PieceType.BISHOP,team);
     }
 
+    /**
+     * Kiểm tra xem quân Tượng có thể di chuyển từ ô ban đầu đến ô kết thúc trên bàn cờ hay không.
+     *
+     * @param board Bàn cờ
+     * @param start Ô ban đầu của quân Tượng
+     * @param end   Ô kết thúc của quân Tượng
+     * @return true nếu quân Tượng có thể di chuyển, ngược lại trả về false
+     */
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startRow = start.getRow();
@@ -53,10 +69,22 @@ public class Bishop extends Piece {
         return !end.isOccupied();
     }
 
+    /**
+     * Kiểm tra xem ô có hợp lệ trong bàn cờ hay không.
+     *
+     * @param row Hàng của ô
+     * @param col Cột của ô
+     * @return true nếu ô không hợp lệ, ngược lại trả về false
+     */
     private boolean isValidSquare(int row, int col) {
         return row < 0 || row >= 8 || col < 0 || col >= 8;
     }
 
+    /**
+     * Trả về tên file biểu tượng của quân Tượng.
+     *
+     * @return Tên file biểu tượng của quân Tượng
+     */
    @Override
     public String getIconFileName() {
         if (this.getTeam() == Team.WHITE){

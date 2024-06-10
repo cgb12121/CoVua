@@ -18,6 +18,9 @@ import java.awt.event.MouseEvent;
 
 import java.util.List;
 
+/**
+ * Lớp đại diện cho giao diện người dùng của trò chơi cờ vua.
+ */
 public class ChessBoardUI extends JPanel {
     private Board board;
     private JPanel[][] squarePanels;
@@ -26,8 +29,14 @@ public class ChessBoardUI extends JPanel {
     private Team currentTurn;
     private boolean gameOver;
     private AI ai;
-    private boolean isAITurn;
 
+    public static boolean isAIturn = false;
+
+    /**
+     * Khởi tạo một bảng cờ vua với bàn cờ đã cho.
+     *
+     * @param board Bàn cờ vua để hiển thị trong giao diện người dùng.
+     */
     public ChessBoardUI(Board board) {
         this.board = board;
         this.squarePanels = new JPanel[8][8];
@@ -39,6 +48,7 @@ public class ChessBoardUI extends JPanel {
         int choice = JOptionPane.showOptionDialog(null, "Select Game Mode", "Game Mode",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);
 
+        //TODO: highlight lượt di chuyển cuối
         if (choice == 0) {
             //Human vs Human
             setLayout(new GridLayout(8, 8));
@@ -72,16 +82,16 @@ public class ChessBoardUI extends JPanel {
             });
         }
 
+        //TODO: fix lỗi chỉ hiện chiếu khi click ngẫu nhiên lên bàn cờ
+        //      highlight lượt di chuyển cuối của AI
         if (choice == 1) {
             // Human vs AI
             setLayout(new GridLayout(8, 8));
             initializeBoardUI();
-            checkForChecks();
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     if (currentTurn == Team.WHITE && !gameOver) { //Trắng là người chơi
-                        checkForChecks();
                         int row = e.getY() / (getHeight() / 8);
                         int col = e.getX() / (getWidth() / 8);
                         Square clickedSquare = board.getSquare(row, col);
@@ -98,44 +108,39 @@ public class ChessBoardUI extends JPanel {
                             if (clickedSquare == selectedSquare) {
                                 selectedSquare = null;
                                 movableSquares = null;
-                                checkForChecks();
                                 resetSquareColors();
                             } else if (movableSquares != null && movableSquares.contains(clickedSquare)) {
                                 //Di chuyển hoặc ăn khi bước đi hợp lệ
                                 boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
-                                checkForChecks();
                                 if (moveSuccessful) {
-                                    handlePawnPromotion(clickedSquare);
+                                    if (currentTurn == Team.WHITE) { //Chi nguoi choi duoc chon promotion
+                                        handlePawnPromotion(clickedSquare);
+                                    }
                                     updateBoard();
                                     resetSquareColors();
-                                    checkForCheckmate();
                                     selectedSquare = null;
                                     movableSquares = null;
                                     if (!gameOver) {
-                                        checkForChecks();
+                                        isAIturn = true;
                                         currentTurn = Team.BLACK;
                                         // AI move trong thread mới
                                         new Thread(() -> {
                                             ai.makeAIMove(currentTurn); // lượt AI
                                             SwingUtilities.invokeLater(() -> {
                                                 updateBoard();
-                                                checkForChecks();
-                                                checkForCheckmate();
+                                                resetSquareColors();
                                                 if (!gameOver) {
                                                     currentTurn = Team.WHITE;
+                                                    isAIturn = false;
                                                 }
                                             });
                                         }).start();
                                     }
-                                } else {
-                                    selectedSquare = null;
-                                    movableSquares = null;
                                 }
                             } else {
                                 // Hủy chọn các ô khi bước đi không hợp lệ
                                 selectedSquare = null;
                                 movableSquares = null;
-                                checkForChecks();
                                 resetSquareColors();
                             }
                         }
@@ -145,6 +150,9 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Khởi tạo giao diện bàn cờ với các ô và quân cờ tương ứng.
+     */
     private void initializeBoardUI() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
@@ -158,18 +166,25 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Hiển thị biểu tượng của quân cờ trên ô được chỉ định trên bàn cờ.
+     *
+     * @param square Ô trên bàn cờ chứa quân cờ cần hiển thị.
+     */
     private void displayPiece(Square square) {
         if (square.isOccupied()) {
             Piece piece = square.getPiece();
             PieceIcon pieceIcon = new PieceIcon(piece);
             JPanel squarePanel = squarePanels[square.getRow()][square.getCol()];
 
+            // Thiết lập layout và các ràng buộc cho ô chứa quân cờ
             squarePanel.setLayout(new GridBagLayout());
             GridBagConstraints constraints = new GridBagConstraints();
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.anchor = GridBagConstraints.CENTER;
 
+            // Xóa các thành phần hiện có trên ô và thêm biểu tượng của quân cờ
             squarePanel.removeAll();
             squarePanel.add(pieceIcon);
             squarePanel.revalidate();
@@ -177,6 +192,12 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Tô màu các ô có thể di chuyển được trên bàn cờ.
+     * Các ô có thể di chuyển được sẽ được tô màu xanh.
+     * Các ô chứa quân cờ địch có thể bị tấn công sẽ được tô màu cam.
+     * Các ô en passant có thể bị tấn công cũng được tô màu cam.
+     */
     private void highlightMovableSquares() {
         if (movableSquares != null) {
             for (Square square : movableSquares) {
@@ -197,6 +218,12 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Kiểm tra xem một nước đi có phải là bắt quân en passant hay không.
+     *
+     * @param endSquare Ô kết thúc của nước đi
+     * @return true nếu nước đi là bắt quân en passant, ngược lại trả về false
+     */
     private boolean isEnPassantCapture(Square endSquare) {
         Piece selectedPiece = selectedSquare.getPiece();
         if (selectedPiece instanceof Pawn && Math.abs(selectedSquare.getCol() - endSquare.getCol()) == 1 && endSquare.getPiece() == null) {
@@ -218,6 +245,11 @@ public class ChessBoardUI extends JPanel {
         return false;
     }
 
+    /**
+     * Thiết lập lại màu của các ô trên bàn cờ.
+     * Các ô có màu trắng và xám xen kẽ.
+     * Các ô được giữ màu đỏ nếu có vua bị chiếu.
+     */
     private void resetSquareColors() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -228,6 +260,10 @@ public class ChessBoardUI extends JPanel {
         checkForChecks();
     }
 
+    /**
+     * Cập nhật giao diện của bàn cờ sau mỗi nước đi.
+     * Gọi lại phương thức để vẽ lại các quân cờ trên bàn cờ và kiểm tra tình trạng chiếu.
+     */
     public void updateBoard() {
         removeAll();
         initializeBoardUI();
@@ -236,6 +272,10 @@ public class ChessBoardUI extends JPanel {
         checkForChecks();
     }
 
+    /**
+     * Kiểm tra và cập nhật các ô trên bàn cờ nếu vua đang bị chiếu.
+     * Các ô có quân tấn công vua sẽ được làm nổi bật (màu đỏ).
+     */
     private void checkForChecks() {
         // Tìm vị trí vua
         Square kingSquare = board.findKingSquare(currentTurn);
@@ -253,6 +293,10 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Kiểm tra xem có chiếu hết hay không và hiển thị thông báo nếu có.
+     * Nếu vua không thể di chuyển và không thể chặn quân tấn công, hiển thị thông báo chiếu hết và kết thúc trò chơi.
+     */
     private void checkForCheckmate() {
         Square kingSquare = board.findKingSquare(currentTurn);
         List<Square> checkingPieces = Checkmate.findCheckingPieces(board, kingSquare);
@@ -287,6 +331,11 @@ public class ChessBoardUI extends JPanel {
         }
     }
 
+    /**
+     * Phong tốt
+     *
+     * @param endSquare Ô mà con tốt sẽ đến khi hoàn thành việc cải biến.
+     */
     private void handlePawnPromotion(Square endSquare) {
         if (endSquare.getPiece() instanceof Pawn && (endSquare.getRow() == 0 || endSquare.getRow() == 7)) {
             PromotionDialog promotionDialog = new PromotionDialog((JFrame) SwingUtilities.getWindowAncestor(this), currentTurn);

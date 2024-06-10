@@ -6,14 +6,30 @@ import main.chess.game.Team;
 
 import main.chess.game.Checkmate;
 
+/**
+ * Lớp đại diện cho quân Vua trong trò chơi cờ vua.
+ */
 public class King extends Piece {
     private boolean hasMoved;
 
+    /**
+     * Khởi tạo một quân Vua với đội tương ứng.
+     *
+     * @param team Đội của quân Vua
+     */
     public King(Team team) {
         super(PieceType.KING,team);
         this.hasMoved = false;
     }
 
+    /**
+     * Kiểm tra xem quân Vua có thể di chuyển từ ô ban đầu đến ô kết thúc trên bàn cờ hay không.
+     *
+     * @param board Bàn cờ
+     * @param start Ô ban đầu của quân Vua
+     * @param end   Ô kết thúc của quân Vua
+     * @return true nếu quân Vua có thể di chuyển, ngược lại trả về false
+     */
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startX = start.getRow();
@@ -43,6 +59,14 @@ public class King extends Piece {
         return false; // Không có ô di chuyển hợp lệ
     }
 
+    /**
+     * Kiểm tra xem nước đi có phải là nhập thành hay không.
+     *
+     * @param board Bàn cờ
+     * @param start Ô ban đầu của quân Vua
+     * @param end   Ô kết thúc của quân Vua
+     * @return true nếu nước đi là nhập thành, ngược lại trả về false
+     */
     private boolean isCastlingMove(Board board, Square start, Square end) {
         int row = start.getRow();
         int colDiff = end.getCol() - start.getCol();
@@ -72,16 +96,31 @@ public class King extends Piece {
         return true; // Đủ điều kiện tiến hành nhập thành
     }
 
+    /**
+     * Di chuyển quân Vua và cập nhật trạng thái đã di chuyển.
+     *
+     * @param start Ô ban đầu của quân Vua
+     * @param end   Ô kết thúc của quân Vua
+     */
     @Override
     public void move(Square start, Square end) {
         super.move(start, end);
         hasMoved = true;
     }
-
+    /**
+     * Trả về trạng thái di chuyển của quân Vua.
+     *
+     * @return true nếu quân Vua đã di chuyển, ngược lại trả về false
+     */
     public boolean hasMoved() {
         return hasMoved;
     }
 
+    /**
+     * Trả về tên file biểu tượng của quân Vua.
+     *
+     * @return Tên file biểu tượng của quân Vua
+     */
     @Override
     public String getIconFileName() {
         if (this.getTeam() == Team.WHITE){

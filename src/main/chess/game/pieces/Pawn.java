@@ -5,11 +5,27 @@ import main.chess.game.board.Board;
 import main.chess.game.board.Square;
 import main.chess.game.Team;
 
+/**
+ * Lớp đại diện cho quân Tốt trong trò chơi cờ vua.
+ */
 public class Pawn extends Piece {
+    /**
+     * Khởi tạo một quân Tốt với đội tương ứng.
+     *
+     * @param team Đội của quân Tốt
+     */
     public Pawn(Team team) {
         super(PieceType.PAWN,team);
     }
 
+    /**
+     * Kiểm tra xem quân Tốt có thể di chuyển từ ô ban đầu đến ô kết thúc trên bàn cờ hay không.
+     *
+     * @param board Bàn cờ
+     * @param start Ô ban đầu của quân Tốt
+     * @param end   Ô kết thúc của quân Tốt
+     * @return true nếu quân Tốt có thể di chuyển, ngược lại trả về false
+     */
     @Override
     public boolean canMove(Board board, Square start, Square end) {
         int startRow = start.getRow();
@@ -65,12 +81,21 @@ public class Pawn extends Piece {
         return false; // Không có ô di chuyển hợp lệ
     }
 
-    // Quân tốt đã rời khỏi vị trí ban đầu chưa
-    private boolean hasMoved(Square square) {
+    /**
+     * Kiểm tra xem quân Tốt đã rời khỏi vị trí ban đầu chưa.
+     *
+     * @param square Ô hiện tại của quân Tốt
+     * @return true nếu quân Tốt đã rời khỏi vị trí ban đầu, ngược lại trả về false
+     */    private boolean hasMoved(Square square) {
         int currentRow = square.getRow();
         return (getTeam() == Team.WHITE && currentRow != 6) || (getTeam() == Team.BLACK && currentRow != 1);
     }
 
+    /**
+     * Trả về tên file biểu tượng của quân Tốt.
+     *
+     * @return Tên file biểu tượng của quân Tốt
+     */
     @Override
     public String getIconFileName() {
         if (this.getTeam() == Team.WHITE){

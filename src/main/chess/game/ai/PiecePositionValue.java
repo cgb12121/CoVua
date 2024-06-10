@@ -1,5 +1,8 @@
 package main.chess.game.ai;
 
+/**
+ * Lớp chứa bảng giá trị vị trí của các quân cờ trên bàn cờ.
+ */
 public class PiecePositionValue {
     public static final int[][] PAWN_TABLE = {
             { 0,  0,  0,  0,  0,  0,  0,  0},

@@ -16,26 +16,28 @@ import javax.swing.JFrame;
 import java.util.ArrayList;
 import java.util.List;
 
+import static main.chess.ui.ChessBoardUI.isAIturn;
+
 public class Board {
     private Square[][] squares;
     public Move lastMove;
 
-    // Tạo bảng mới khi bắt đầu
-    public Board() {
+    /**
+     * Tạo một bảng cờ mới khi bắt đầu trò chơi.
+     */    public Board() {
         this.squares = new Square[8][8];
         resetBoard();
     }
 
-    // Đặt các quân cờ tại vị trí ban đầu
-    private void resetBoard() {
+    /**
+     * Đặt các quân cờ tại vị trí ban đầu trên bàn cờ.
+     */    private void resetBoard() {
         // Quân trắng
         for (int col = 0; col < 8; col++) {
             squares[6][col] = new Square(6, col, new Pawn(Team.WHITE));
-
-//            Test AI promotion
-//            if (col == 0){
-//                squares[6][col] = new Square(6, col, new Pawn(Team.BLACK));
-//            }
+//          Test promotion for AI
+//            if (col== 0) squares[6][col] = new Square(6, col, new Pawn(Team.BLACK));
+//            if (col ==7) squares[6][col] = new Square(6, col, new Pawn(Team.BLACK));
         }
 
         squares[7][0] = new Square(7, 0, new Rook(Team.WHITE));
@@ -74,12 +76,24 @@ public class Board {
         }
     }
 
+    /**
+     * Lấy ô trên bàn cờ dựa trên hàng và cột.
+     *
+     * @param row Hàng của ô cần lấy
+     * @param col Cột của ô cần lấy
+     * @return Ô trên bàn cờ ứng với hàng và cột đã cho
+     */
     public Square getSquare(int row, int col) {
         return squares[row][col];
     }
 
-    // Di chuyển các quân cờ trên bàn cờ
-    public boolean movePiece(Square start, Square end) {
+    /**
+     * Di chuyển quân cờ từ ô đầu đến ô đích trên bàn cờ.
+     *
+     * @param start Ô bắt đầu của quân cờ
+     * @param end   Ô đích của quân cờ
+     * @return true nếu di chuyển thành công, ngược lại trả về false
+     */    public boolean movePiece(Square start, Square end) {
         if (start == null || end == null || start == end || !start.isOccupied() || !start.getPiece().canMove(this, start, end)) {
             return false;
         }
@@ -145,10 +159,14 @@ public class Board {
             rookStart.setPiece(null);
         }
 
-        // Thực hiện phong tốt
+        // Thực hiện phong tốt, không hiện dialog với AI
         if (piece instanceof Pawn && (end.getRow() == 0 || end.getRow() == 7)) {
-            Piece promotedPiece = choosePromotionPiece(piece.getTeam());
-            end.setPiece(promotedPiece);
+            if (!isAIturn) {
+                Piece promotedPiece = choosePromotionPiece(piece.getTeam());
+                end.setPiece(promotedPiece);
+            } else {
+                end.setPiece(new Queen(Team.BLACK));
+            }
         }
 
         // Cập nhật vị trí
@@ -159,6 +177,12 @@ public class Board {
         return true;
     }
 
+    /**
+     * Chọn quân cờ mà quân tốt sẽ được phong tốt thành.
+     *
+     * @param team Đội của quân tốt
+     * @return Quân cờ được chọn để phong tốt, mặc định là Hậu
+     */
     private Piece choosePromotionPiece(Team team) {
         JFrame frame = new JFrame();
         PromotionDialog dialog = new PromotionDialog(frame, team);
@@ -168,11 +192,21 @@ public class Board {
         return chosenPiece != null ? chosenPiece : new Queen(team);
     }
 
-
+    /**
+     * Trả về nước đi cuối cùng được thực hiện trên bàn cờ.
+     *
+     * @return Nước đi cuối cùng
+     */
     public Move getLastMove() {
         return lastMove;
     }
 
+    /**
+     * Phương thức này sẽ tô màu các ô có thể di chuyển cho một quân cờ được chọn.
+     *
+     * @param selectedSquare Ô chứa quân cờ được chọn
+     * @return Danh sách các ô có thể di chuyển đến được bởi quân cờ đã chọn
+     */
     public List<Square> highlightMovableSquares(Square selectedSquare) {
         List<Square> movableSquares = new ArrayList<>();
         Piece selectedPiece = selectedSquare.getPiece();
@@ -227,6 +261,12 @@ public class Board {
         return movableSquares; // Trả lại các ô quân đó có thể di chuyển
     }
 
+    /**
+     * Kiểm tra xem vua của một đội có đang bị chiếu hay không.
+     *
+     * @param team Đội cần kiểm tra vua bị chiếu
+     * @return true nếu vua của đội đang bị chiếu, ngược lại trả về false
+     */
     private boolean isKingInCheck(Team team) {
         // Tìm vị trí vua cùng phe
         Square kingSquare = findKingSquare(team);
@@ -235,8 +275,12 @@ public class Board {
         return Checkmate.kingInCheck(this, kingSquare);
     }
 
-    // Tìm vị trí của vua dựa vào đội
-    public Square findKingSquare(Team team) {
+    /**
+     * Tìm vị trí của vua của một đội trên bàn cờ.
+     *
+     * @param team Đội của vua cần tìm
+     * @return Ô chứa vua của đội cần tìm, hoặc null nếu không tìm thấy
+     */    public Square findKingSquare(Team team) {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 Square kingPos = getSquare(i, j);

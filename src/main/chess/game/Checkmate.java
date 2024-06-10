@@ -7,8 +7,18 @@ import main.chess.game.pieces.PieceType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class Checkmate cung cấp các phương thức để kiểm tra tình trạng chiếu hết.
+ */
 public class Checkmate {
 
+    /**
+     * Kiểm tra xem vua có thể thoát khỏi chiếu hay không.
+     *
+     * @param board      Bàn cờ hiện tại.
+     * @param kingSquare Ô mà vua đang đứng.
+     * @return true nếu vua có thể thoát khỏi chiếu, ngược lại trả về false.
+     */
     public static boolean canKingEscape(Board board, Square kingSquare) {
         int kingRow = kingSquare.getRow();
         int kingCol = kingSquare.getCol();
@@ -41,8 +51,13 @@ public class Checkmate {
         return true; // Vua không chạy thoát được
     }
 
-    // Kiểm tra nếu vua đang bị chiếu
-    public static boolean kingInCheck(Board board, Square kingPos) {
+    /**
+     * Kiểm tra xem vua có đang bị chiếu không.
+     *
+     * @param board   Bàn cờ hiện tại.
+     * @param kingPos Vị trí hiện tại của vua.
+     * @return true nếu vua đang bị chiếu, ngược lại trả về false.
+     */    public static boolean kingInCheck(Board board, Square kingPos) {
         return checkByPawn(board, kingPos, kingPos) ||
                 checkByKnight(board, kingPos, kingPos) ||
                 checkByRook(board, kingPos, kingPos) ||
@@ -51,8 +66,13 @@ public class Checkmate {
                 checkByKing(board, kingPos, kingPos);
     }
 
-    // Tìm vị trí của vua và quân cờ đang chiếu vua
-    public static List<Square> findCheckingPieces(Board board, Square kingPos) {
+    /**
+     * Tìm các quân cờ đang chiếu vua và vị trí của chúng.
+     *
+     * @param board   Bàn cờ hiện tại.
+     * @param kingPos Vị trí hiện tại của vua.
+     * @return Danh sách các ô chứa quân cờ đang chiếu vua.
+     */    public static List<Square> findCheckingPieces(Board board, Square kingPos) {
         List<Square> checkingPieces = new ArrayList<>();
 
         // Duyệt qua bàn cờ
@@ -70,7 +90,14 @@ public class Checkmate {
         return checkingPieces;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi xe
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi xe hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi xe sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByRook(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -114,7 +141,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi tịnh
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi tịnh hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi tịnh sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByBishop(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -158,7 +192,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi hậu
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi hậu hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi hậu sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByQueen(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -237,7 +278,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi vua
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi vua địch hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi vua địch sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByKing(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -265,7 +313,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi tốt
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi tốt hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi tốt sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByPawn(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -307,7 +362,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu sau khi di chuyển vua sẽ bị chiếu bởi mã
+    /**
+     * Kiểm tra xem vua sau khi di chuyển có bị chiếu bởi mã hay không.
+     *
+     * @param board       Bàn cờ hiện tại.
+     * @param kingPos     Vị trí hiện tại của vua.
+     * @param kingNewPos  Vị trí mới của vua.
+     * @return true nếu vua bị chiếu bởi mã sau khi di chuyển, ngược lại trả về false.
+     */
     public static boolean checkByKnight(Board board, Square kingPos, Square kingNewPos) {
         int endX = kingNewPos.getRow();
         int endY = kingNewPos.getCol();
@@ -332,7 +394,14 @@ public class Checkmate {
         return false;
     }
 
-    // Kiểm tra nếu có quân cờ ở giữa 2 ô trên bàn cờ
+    /**
+     * Kiểm tra xem có quân cờ nào ở giữa hai ô trên bàn cờ không.
+     *
+     * @param board Bàn cờ hiện tại.
+     * @param start Ô bắt đầu.
+     * @param end   Ô kết thúc.
+     * @return true nếu có quân cờ nằm giữa hai ô, ngược lại trả về false.
+     */
     private static boolean isSquareBetweenUnblocked(Board board, Square start, Square end) {
         int startX = start.getRow();
         int startY = start.getCol();
