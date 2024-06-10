@@ -4,19 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="update logic checkmate">
-      <change afterPath="$PROJECT_DIR$/src/main/chess/game/ai/AI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/game/ai/PiecePositionValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/game/ai/PieceValue.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/game/ai/StupidAI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/mode_not_complete_yet/GameMode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/mode_not_complete_yet/HumanVsAI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/chess/mode_not_complete_yet/HumanVsHuman.java" afterDir="false" />
+    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="add AI brain">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/board/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/pieces/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +184,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717569370935</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="add AI brain">
+      <option name="closed" value="true" />
+      <created>1717939929059</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1717939929059</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add AI brain">
+      <option name="closed" value="true" />
+      <created>1717947081856</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1717947081856</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +220,7 @@
     <MESSAGE value="fix logic check for rook, bishop, queen and add comment, ngan khong cho vua di chuyen den o bi chieu" />
     <MESSAGE value="update logic khong cho quan co di chuyen neu nuoc di do lam vua bi chieu" />
     <MESSAGE value="update logic checkmate" />
-    <option name="LAST_COMMIT_MESSAGE" value="update logic checkmate" />
+    <MESSAGE value="add AI brain" />
+    <option name="LAST_COMMIT_MESSAGE" value="add AI brain" />
   </component>
 </project>
