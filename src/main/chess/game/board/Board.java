@@ -24,14 +24,16 @@ public class Board {
 
     /**
      * Tạo một bảng cờ mới khi bắt đầu trò chơi.
-     */    public Board() {
+     */
+    public Board() {
         this.squares = new Square[8][8];
         resetBoard();
     }
 
     /**
      * Đặt các quân cờ tại vị trí ban đầu trên bàn cờ.
-     */    private void resetBoard() {
+     */
+    private void resetBoard() {
         // Quân trắng
         for (int col = 0; col < 8; col++) {
             squares[6][col] = new Square(6, col, new Pawn(Team.WHITE));
@@ -93,7 +95,8 @@ public class Board {
      * @param start Ô bắt đầu của quân cờ
      * @param end   Ô đích của quân cờ
      * @return true nếu di chuyển thành công, ngược lại trả về false
-     */    public boolean movePiece(Square start, Square end) {
+     */
+    public boolean movePiece(Square start, Square end) {
         if (start == null || end == null || start == end || !start.isOccupied() || !start.getPiece().canMove(this, start, end)) {
             return false;
         }
@@ -280,7 +283,8 @@ public class Board {
      *
      * @param team Đội của vua cần tìm
      * @return Ô chứa vua của đội cần tìm, hoặc null nếu không tìm thấy
-     */    public Square findKingSquare(Team team) {
+     */
+    public Square findKingSquare(Team team) {
         for (int i = 0; i < 8; i++){
             for (int j = 0; j < 8; j++){
                 Square kingPos = getSquare(i, j);

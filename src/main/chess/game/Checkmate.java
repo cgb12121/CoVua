@@ -57,7 +57,8 @@ public class Checkmate {
      * @param board   Bàn cờ hiện tại.
      * @param kingPos Vị trí hiện tại của vua.
      * @return true nếu vua đang bị chiếu, ngược lại trả về false.
-     */    public static boolean kingInCheck(Board board, Square kingPos) {
+     */
+    public static boolean kingInCheck(Board board, Square kingPos) {
         return checkByPawn(board, kingPos, kingPos) ||
                 checkByKnight(board, kingPos, kingPos) ||
                 checkByRook(board, kingPos, kingPos) ||
@@ -72,7 +73,8 @@ public class Checkmate {
      * @param board   Bàn cờ hiện tại.
      * @param kingPos Vị trí hiện tại của vua.
      * @return Danh sách các ô chứa quân cờ đang chiếu vua.
-     */    public static List<Square> findCheckingPieces(Board board, Square kingPos) {
+     */
+    public static List<Square> findCheckingPieces(Board board, Square kingPos) {
         List<Square> checkingPieces = new ArrayList<>();
 
         // Duyệt qua bàn cờ

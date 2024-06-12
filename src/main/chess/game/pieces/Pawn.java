@@ -86,7 +86,8 @@ public class Pawn extends Piece {
      *
      * @param square Ô hiện tại của quân Tốt
      * @return true nếu quân Tốt đã rời khỏi vị trí ban đầu, ngược lại trả về false
-     */    private boolean hasMoved(Square square) {
+     */
+    private boolean hasMoved(Square square) {
         int currentRow = square.getRow();
         return (getTeam() == Team.WHITE && currentRow != 6) || (getTeam() == Team.BLACK && currentRow != 1);
     }

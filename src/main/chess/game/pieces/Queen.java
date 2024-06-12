@@ -16,7 +16,8 @@ public class Queen extends Piece {
      * Hậu kết hợp các khả năng di chuyển của xe và tượng.
      *
      * @param team Đội của quân hậu
-     */    public Queen(Team team) {
+     */
+    public Queen(Team team) {
         super(PieceType.QUEEN,team);
         this.rook = new Rook(team);
         this.bishop = new Bishop(team);
@@ -29,7 +30,8 @@ public class Queen extends Piece {
      * @param start Ô bắt đầu của quân hậu.
      * @param end   Ô kết thúc của quân hậu.
      * @return true nếu quân hậu có thể di chuyển đến ô kết thúc, ngược lại trả về false.
-     */    @Override
+     */
+    @Override
     public boolean canMove(Board board, Square start, Square end) {
         return rook.canMove(board, start, end) || bishop.canMove(board, start, end);
     }
