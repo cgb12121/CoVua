@@ -118,6 +118,7 @@ public class ChessBoardUI extends JPanel {
                                     }
                                     updateBoard();
                                     resetSquareColors();
+                                    checkForCheckmate();
                                     selectedSquare = null;
                                     movableSquares = null;
                                     if (!gameOver) {
@@ -129,6 +130,7 @@ public class ChessBoardUI extends JPanel {
                                             SwingUtilities.invokeLater(() -> {
                                                 updateBoard();
                                                 resetSquareColors();
+                                                checkForCheckmate();
                                                 if (!gameOver) {
                                                     currentTurn = Team.WHITE;
                                                     isAIturn = false;
