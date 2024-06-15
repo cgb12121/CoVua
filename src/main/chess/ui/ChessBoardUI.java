@@ -291,8 +291,8 @@ public class ChessBoardUI extends JPanel {
         }
 
         if (lastStartSquare != null && lastEndSquare != null) {
-            squarePanels[lastStartSquare.getRow()][lastStartSquare.getCol()].setBackground(Color.YELLOW);
-            squarePanels[lastEndSquare.getRow()][lastEndSquare.getCol()].setBackground(Color.YELLOW);
+            squarePanels[lastStartSquare.getRow()][lastStartSquare.getCol()].setBackground(Color.BLUE);
+            squarePanels[lastEndSquare.getRow()][lastEndSquare.getCol()].setBackground(Color.BLUE);
         }
 
         // Sau khi reset vẫn giữ lại màu những ô chiếu
