@@ -20,6 +20,8 @@ import static main.chess.game.ai.PieceValue.*;
 public class AI {
     private Board board;
     private JPanel[][] squarePanels;
+    private Square lastStartSquare;
+    private Square lastEndSquare;
 
     /**
      * Khởi tạo đối tượng AI với thông tin bàn cờ và các ô trên bàn cờ.
@@ -30,6 +32,8 @@ public class AI {
     public AI(Board board, JPanel[][] squarePanels) {
         this.board = board;
         this.squarePanels = squarePanels;
+        this.lastStartSquare = null;
+        this.lastEndSquare = null;
     }
 
     /**
@@ -361,9 +365,25 @@ public class AI {
         if (bestMove != null) {
             Square start = bestMove.getStart();
             Square end = bestMove.getEnd();
+
+            this.lastStartSquare = start;
+            this.lastEndSquare = end;
+
             board.movePiece(start, end);
-            squarePanels[start.getRow()][start.getCol()].setBackground(Color.BLUE);
-            squarePanels[end.getRow()][end.getCol()].setBackground(Color.BLUE);
+
+            // Highligh last move cho AI
+            SwingUtilities.invokeLater(() -> {
+                squarePanels[start.getRow()][start.getCol()].setBackground(Color.YELLOW);
+                squarePanels[end.getRow()][end.getCol()].setBackground(Color.YELLOW);
+            });
         }
+    }
+
+    public Square getLastStartSquare() {
+        return lastStartSquare;
+    }
+
+    public Square getLastEndSquare() {
+        return lastEndSquare;
     }
 }
