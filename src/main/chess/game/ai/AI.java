@@ -373,8 +373,8 @@ public class AI {
 
             // Highligh last move cho AI
             SwingUtilities.invokeLater(() -> {
-                squarePanels[start.getRow()][start.getCol()].setBackground(Color.YELLOW);
-                squarePanels[end.getRow()][end.getCol()].setBackground(Color.YELLOW);
+                squarePanels[start.getRow()][start.getCol()].setBackground(Color.BLUE);
+                squarePanels[end.getRow()][end.getCol()].setBackground(Color.BLUE);
             });
         }
     }
