@@ -5,8 +5,6 @@ import main.chess.game.pieces.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Lớp PromotionDialog đại diện cho một hộp thoại để chọn quân cờ thăng cấp khi một quân tốt đạt đến cuối bàn cờ.
