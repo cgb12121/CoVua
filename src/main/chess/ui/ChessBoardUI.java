@@ -26,6 +26,8 @@ public class ChessBoardUI extends JPanel {
     private JPanel[][] squarePanels;
     private Square selectedSquare;
     private List<Square> movableSquares;
+    private Square lastStartSquare;
+    private Square lastEndSquare;
     private Team currentTurn;
     private boolean gameOver;
     private AI ai;
@@ -43,6 +45,8 @@ public class ChessBoardUI extends JPanel {
         this.currentTurn = Team.WHITE; // Lượt đầu mặc định là trắng
         this.gameOver = false;
         this.ai = new AI(board, squarePanels);
+        this.lastStartSquare = null;
+        this.lastEndSquare = null;
 
         String[] options = {"Human vs Human", "Human vs AI"};
         int choice = JOptionPane.showOptionDialog(null, "Select Game Mode", "Game Mode",
@@ -53,7 +57,6 @@ public class ChessBoardUI extends JPanel {
             //Human vs Human
             setLayout(new GridLayout(8, 8));
             initializeBoardUI();
-            checkForCheckmate();
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -68,6 +71,8 @@ public class ChessBoardUI extends JPanel {
                     } else if (selectedSquare != null) {
                         boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
                         if (moveSuccessful) {
+                            lastStartSquare = selectedSquare;
+                            lastEndSquare = clickedSquare;
                             handlePawnPromotion(clickedSquare);
                             updateBoard();
                             // Đổi lượt sau khi di chuyển hợp lệ
@@ -82,22 +87,44 @@ public class ChessBoardUI extends JPanel {
             });
         }
 
-        //TODO: fix lỗi chỉ hiện chiếu khi click ngẫu nhiên lên bàn cờ
-        //      highlight lượt di chuyển cuối của AI
         if (choice == 1) {
             // Human vs AI
+            String[] firstMoveOptions = {"Human First", "AI First"};
+            int firstMoveChoice = JOptionPane.showOptionDialog(null, "Who will go first?", "First Move",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, firstMoveOptions, firstMoveOptions[0]);
+
             setLayout(new GridLayout(8, 8));
             initializeBoardUI();
+
+            if (firstMoveChoice == 1) {
+                // AI đi trước
+                currentTurn = Team.BLACK;
+                new Thread(() -> {
+                    ai.makeAIMove(currentTurn); // AI's move
+                    SwingUtilities.invokeLater(() -> {
+                        updateBoard();
+                        lastStartSquare = ai.getLastStartSquare();
+                        lastEndSquare = ai.getLastEndSquare();
+                        resetSquareColors();
+                        checkForCheckmate();
+                        if (!gameOver) {
+                            currentTurn = Team.WHITE;
+                            isAIturn = false;
+                        }
+                    });
+                }).start();
+            }
+
             addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (currentTurn == Team.WHITE && !gameOver) { //Trắng là người chơi
+                    if (currentTurn == Team.WHITE && !gameOver) { //Lượt người chơi
                         int row = e.getY() / (getHeight() / 8);
                         int col = e.getX() / (getWidth() / 8);
                         Square clickedSquare = board.getSquare(row, col);
 
                         if (selectedSquare == null) {
-                            // Chọn ô, nếu sai thì chọn lại
+                            // Chọn một o vuông, nếu không hợp lệ hãy chọn lại
                             if (clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
                                 selectedSquare = clickedSquare;
                                 squarePanels[row][col].setBackground(Color.BLUE);
@@ -110,10 +137,12 @@ public class ChessBoardUI extends JPanel {
                                 movableSquares = null;
                                 resetSquareColors();
                             } else if (movableSquares != null && movableSquares.contains(clickedSquare)) {
-                                //Di chuyển hoặc ăn khi bước đi hợp lệ
+                                // Di chuyển hoặc bắt giữ nếu di chuyển hợp lệ
                                 boolean moveSuccessful = board.movePiece(selectedSquare, clickedSquare);
                                 if (moveSuccessful) {
-                                    if (currentTurn == Team.WHITE) { //Chi nguoi choi duoc chon promotion
+                                    lastStartSquare = selectedSquare;
+                                    lastEndSquare = clickedSquare;
+                                    if (currentTurn == Team.WHITE) {// Chỉ người chơi chọn promotion
                                         handlePawnPromotion(clickedSquare);
                                     }
                                     updateBoard();
@@ -124,11 +153,13 @@ public class ChessBoardUI extends JPanel {
                                     if (!gameOver) {
                                         isAIturn = true;
                                         currentTurn = Team.BLACK;
-                                        // AI move trong thread mới
+                                        // AI trong thread khac
                                         new Thread(() -> {
-                                            ai.makeAIMove(currentTurn); // lượt AI
+                                            ai.makeAIMove(currentTurn); // AI's move
                                             SwingUtilities.invokeLater(() -> {
                                                 updateBoard();
+                                                lastStartSquare = ai.getLastStartSquare();
+                                                lastEndSquare = ai.getLastEndSquare();
                                                 resetSquareColors();
                                                 checkForCheckmate();
                                                 if (!gameOver) {
@@ -140,7 +171,7 @@ public class ChessBoardUI extends JPanel {
                                     }
                                 }
                             } else {
-                                // Hủy chọn các ô khi bước đi không hợp lệ
+                                // Bỏ chọn ô vuông nếu di chuyển không hợp lệ
                                 selectedSquare = null;
                                 movableSquares = null;
                                 resetSquareColors();
@@ -258,6 +289,12 @@ public class ChessBoardUI extends JPanel {
                 squarePanels[i][j].setBackground((i + j) % 2 == 0 ? Color.WHITE : Color.GRAY);
             }
         }
+
+        if (lastStartSquare != null && lastEndSquare != null) {
+            squarePanels[lastStartSquare.getRow()][lastStartSquare.getCol()].setBackground(Color.YELLOW);
+            squarePanels[lastEndSquare.getRow()][lastEndSquare.getCol()].setBackground(Color.YELLOW);
+        }
+
         // Sau khi reset vẫn giữ lại màu những ô chiếu
         checkForChecks();
     }
@@ -324,7 +361,7 @@ public class ChessBoardUI extends JPanel {
                 if (canBlockCheck) break;
             }
 
-            if (!canBlockCheck && !Checkmate.canKingEscape(board, kingSquare)) {
+            if (!canBlockCheck && Checkmate.canKingEscape(board, kingSquare)) {
                 // Nếu vua không thể thoát và không thể chặn quân chiếu, đó là chiếu hết
                 String winner = (currentTurn == Team.WHITE) ? "Black" : "White";
                 JOptionPane.showMessageDialog(this, winner + " Thắng!");
@@ -336,7 +373,7 @@ public class ChessBoardUI extends JPanel {
     /**
      * Phong tốt
      *
-     * @param endSquare Ô mà con tốt sẽ đến khi hoàn thành việc cải biến.
+     * @param endSquare Ô mà con tốt sẽ đến khi hoàn thành việc promotion.
      */
     private void handlePawnPromotion(Square endSquare) {
         if (endSquare.getPiece() instanceof Pawn && (endSquare.getRow() == 0 || endSquare.getRow() == 7)) {
