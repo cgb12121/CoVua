@@ -370,12 +370,6 @@ public class AI {
             this.lastEndSquare = end;
 
             board.movePiece(start, end);
-
-            // Highligh last move cho AI
-            SwingUtilities.invokeLater(() -> {
-                squarePanels[start.getRow()][start.getCol()].setBackground(Color.BLUE);
-                squarePanels[end.getRow()][end.getCol()].setBackground(Color.BLUE);
-            });
         }
     }
 
