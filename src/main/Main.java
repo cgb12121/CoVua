@@ -16,7 +16,6 @@ public class Main {
         frame.add(chessBoardUI);
 
         frame.pack();
-        frame.setSize(800, 800);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);

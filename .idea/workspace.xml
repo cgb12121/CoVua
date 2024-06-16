@@ -4,28 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="fix no checkmate at AI mode">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cebba9a3-b537-433d-9772-0872dc0a8ab5" name="Changes" comment="fix Checkmate logic, add highlight last move for both pvp mode and pve mod">
+      <change afterPath="$PROJECT_DIR$/src/main/chess/ui/BoardHighlight.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/chess/ui/BoardStyle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CoVua.iml" beforeDir="false" afterPath="$PROJECT_DIR$/CoVua.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/Checkmate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/Checkmate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ChessGame.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ChessGame.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/Team.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/Team.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ai/AI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ai/AI$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ai/AI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/ai/AI.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Board.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Board.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Move.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Move.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Square.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/board/Square.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Bishop.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Bishop.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/King.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/King.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Knight.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Knight.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Pawn.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Pawn.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Piece.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Piece.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/PieceType.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/PieceType.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Queen.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Queen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Rook.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/game/pieces/Rook.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/ChessBoardUI.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/PieceIcon.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/PieceIcon.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/PromotionDialog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CoVua/main/chess/ui/PromotionDialog.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/game/ai/AI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/game/ai/AI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/chess/ui/ChessBoardUI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,9 +30,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JavaScript File" />
         <option value="FxmlFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -68,33 +63,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Admin/IdeaProjects/TU_HOC/sudoku",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "settings.sync",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/IdeaProjects/TU_HOC/sudoku&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\IdeaProjects\TU_HOC\CoVua\src\craps" />
@@ -127,6 +122,12 @@
       <workItem from="1718164533007" duration="47000" />
       <workItem from="1718164644992" duration="334000" />
       <workItem from="1718167452693" duration="67000" />
+      <workItem from="1718366883958" duration="55000" />
+      <workItem from="1718366984440" duration="985000" />
+      <workItem from="1718368307177" duration="143000" />
+      <workItem from="1718378917298" duration="2000" />
+      <workItem from="1718462421915" duration="21000" />
+      <workItem from="1718556366096" duration="194000" />
     </task>
     <task id="LOCAL-00001" summary="fix logic check for rook, bishop, queen">
       <option name="closed" value="true" />
@@ -264,7 +265,63 @@
       <option name="project" value="LOCAL" />
       <updated>1718167508477</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fix no checkmate at AI mode">
+      <option name="closed" value="true" />
+      <created>1718225259359</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1718225259359</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Add highlight for AI's last move">
+      <option name="closed" value="true" />
+      <created>1718465184062</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465184062</updated>
+    </task>
+    <task id="LOCAL-00020" summary="remove redundant import">
+      <option name="closed" value="true" />
+      <created>1718465224490</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465224490</updated>
+    </task>
+    <task id="LOCAL-00021" summary="fix Checkmate logic, add highlight last move for both pvp mode and pve mod">
+      <option name="closed" value="true" />
+      <created>1718465266372</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465266372</updated>
+    </task>
+    <task id="LOCAL-00022" summary="fix Checkmate logic, add highlight last move for both pvp mode and pve mod">
+      <option name="closed" value="true" />
+      <created>1718465403198</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465403198</updated>
+    </task>
+    <task id="LOCAL-00023" summary="fix Checkmate logic, add highlight last move for both pvp mode and pve mod">
+      <option name="closed" value="true" />
+      <created>1718465412251</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465412251</updated>
+    </task>
+    <task id="LOCAL-00024" summary="fix Checkmate logic, add highlight last move for both pvp mode and pve mod">
+      <option name="closed" value="true" />
+      <created>1718465505677</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1718465505677</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -290,6 +347,9 @@
     <MESSAGE value="add AI brain" />
     <MESSAGE value="them comments/doc" />
     <MESSAGE value="fix no checkmate at AI mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix no checkmate at AI mode" />
+    <MESSAGE value="Add highlight for AI's last move" />
+    <MESSAGE value="remove redundant import" />
+    <MESSAGE value="fix Checkmate logic, add highlight last move for both pvp mode and pve mod" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix Checkmate logic, add highlight last move for both pvp mode and pve mod" />
   </component>
 </project>

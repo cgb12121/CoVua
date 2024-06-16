@@ -5,6 +5,7 @@ import main.chess.game.board.Board;
 import main.chess.game.board.Move;
 import main.chess.game.board.Square;
 import main.chess.game.pieces.Piece;
+import main.chess.ui.ChessBoardUI;
 
 import javax.swing.*;
 import java.awt.*;

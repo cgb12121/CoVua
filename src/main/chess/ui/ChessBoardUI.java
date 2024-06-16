@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 
 import java.util.List;
 
+import static main.chess.ui.BoardHighlight.*;
+
 /**
  * Lớp đại diện cho giao diện người dùng của trò chơi cờ vua.
  */
@@ -65,7 +67,7 @@ public class ChessBoardUI extends JPanel {
                     Square clickedSquare = board.getSquare(row, col);
                     if (selectedSquare == null && clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
                         selectedSquare = clickedSquare;
-                        squarePanels[row][col].setBackground(Color.BLUE);
+                        squarePanels[row][col].setBackground(DARK_BLUE);
                         movableSquares = board.highlightMovableSquares(selectedSquare);
                         highlightMovableSquares();
                     } else if (selectedSquare != null) {
@@ -127,7 +129,7 @@ public class ChessBoardUI extends JPanel {
                             // Chọn một o vuông, nếu không hợp lệ hãy chọn lại
                             if (clickedSquare.isOccupied() && clickedSquare.getPiece().getTeam() == currentTurn) {
                                 selectedSquare = clickedSquare;
-                                squarePanels[row][col].setBackground(Color.BLUE);
+                                squarePanels[row][col].setBackground(DARK_BLUE);
                                 movableSquares = board.highlightMovableSquares(selectedSquare);
                                 highlightMovableSquares();
                             }
@@ -239,13 +241,13 @@ public class ChessBoardUI extends JPanel {
 
                 if (square.isOccupied() && square.getPiece().getTeam() != selectedSquare.getPiece().getTeam()) {
                     // Ô có thể tấn công địch
-                    squarePanels[row][col].setBackground(Color.ORANGE);
+                    squarePanels[row][col].setBackground(LIGHT_RED);
                 } else if (isEnPassantCapture(square)) {
                     // Ô en passant có thể tấn công
-                    squarePanels[row][col].setBackground(Color.ORANGE);
+                    squarePanels[row][col].setBackground(LIGHT_RED);
                 } else {
                     // Ô có thể di chuyển
-                    squarePanels[row][col].setBackground(Color.GREEN);
+                    squarePanels[row][col].setBackground(LIGHT_GREEN);
                 }
             }
         }
@@ -291,8 +293,8 @@ public class ChessBoardUI extends JPanel {
         }
 
         if (lastStartSquare != null && lastEndSquare != null) {
-            squarePanels[lastStartSquare.getRow()][lastStartSquare.getCol()].setBackground(Color.BLUE);
-            squarePanels[lastEndSquare.getRow()][lastEndSquare.getCol()].setBackground(Color.BLUE);
+            squarePanels[lastStartSquare.getRow()][lastStartSquare.getCol()].setBackground(LIGHT_BLUE);
+            squarePanels[lastEndSquare.getRow()][lastEndSquare.getCol()].setBackground(LIGHT_BLUE);
         }
 
         // Sau khi reset vẫn giữ lại màu những ô chiếu
@@ -308,6 +310,7 @@ public class ChessBoardUI extends JPanel {
         initializeBoardUI();
         revalidate();
         repaint();
+        resetSquareColors();
         checkForChecks();
     }
 
@@ -325,9 +328,9 @@ public class ChessBoardUI extends JPanel {
             List<Square> checkingPieces = Checkmate.findCheckingPieces(board, kingSquare);
 
             // Cảnh báo chiếu
-            squarePanels[kingSquare.getRow()][kingSquare.getCol()].setBackground(Color.RED);
+            squarePanels[kingSquare.getRow()][kingSquare.getCol()].setBackground(STRONG_RED);
             for (Square checkingPiece : checkingPieces) {
-                squarePanels[checkingPiece.getRow()][checkingPiece.getCol()].setBackground(Color.RED);
+                squarePanels[checkingPiece.getRow()][checkingPiece.getCol()].setBackground(STRONG_RED);
             }
         }
     }
